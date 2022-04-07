@@ -1,0 +1,44 @@
+{% include 'includes/header.twig' with {'title': page_title,'user': logged_user} %}
+
+<main id='account'>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                    {% if logged_user.email_confirmed == 0 %}
+                    <div class="alert alert-danger">
+                        Your account is not confirmed. Please, check your e-mail.
+                    </div>
+                    {% else %}
+                    <div class="alert alert-success d-flex align-items-center justify-content-between" >
+                        <div>Your account has been successfully confirmed.</div>
+                    </div>
+                    {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-lg-2">
+                {% include 'includes/filter-sidebar.twig' with {'categories': categories, 'title': categories_title} %}
+            </div>
+            <div class="col-12 col-lg-10">
+                <div class="row">
+                    <div class="col-12 col-lg-3 col-md-3 col-sm-6 ms-auto mb-3">
+                        <select class="form-select" aria-label="Default select example" name="orderBy" id="orderBy" class="ml-auto d-block mb-3" v-model="ordering" @change="doFilter" style="width: 100%">
+                            <option value="price|asc">From cheap to expensive</option>
+                            <option value="price|desc">From expensive to cheap</option>
+                            <option value="pub_date|asc">From new to old</option>
+                            <option value="pub_date|desc">From old to new</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <product-card
+                        v-for="product in products"
+                        v-bind:product="product"
+                    ></product-card>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% include 'includes/footer.twig' %}

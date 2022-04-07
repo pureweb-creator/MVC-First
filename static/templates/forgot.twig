@@ -1,0 +1,29 @@
+{% include 'includes/header.twig' with {'title': page_title,'user': logged_user} %}
+
+<main id="resetPassword">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <br>
+                <h1 class="mb3">{{ page_title }}</h1>
+                <br>
+            </div>
+            <div class="col-8 m-auto">
+                <form @submit.prevent="doReset" class="form">
+                    <p class="help text-danger" v-if="errors['noUserExists']==true">No user found with current email</p>
+                    <p class="help text-danger" v-if="errors['wrongEmail']==true">Email is not correct</p>
+                    <p class="help text-danger" v-if="errors['notSent']==true">Sorry, e-mail not sent :(</p>
+                    <p class="help text-success" v-if="errors['success']==true">Please, check your email</p>
+                    <p class="input-group">
+                        <input type="text" class="form-control" placeholder="E-mail" v-model="email">
+                    </p>
+                    <p class="input-group">
+                        <button class="btn btn-success" type="submit">Send</button>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% include 'includes/footer.twig' %}

@@ -1,0 +1,11 @@
+<div class="filter">
+    <h4 class="mb-3">{{ title }}</h4>
+    <div class="d-flex flex-column">
+    {% for category in categories %}
+        <div class="mb-2" role="group" aria-label="Basic checkbox toggle button group">
+            <input @change="doFilter" type="checkbox" value="{{ category.id }}" v-model="categories" id="filter_cat_id_{{ category.id }}" autocomplete="off">
+            <label for="filter_cat_id_{{ category.id }}">{{ category.name }}</label>
+        </div>
+    {% endfor %}
+    </div>
+</div>
