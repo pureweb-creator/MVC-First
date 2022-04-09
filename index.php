@@ -1,4 +1,6 @@
 <?php
+
+
 require realpath('app/kernel/autoload.php');
 
 $model = new Models\Model();
