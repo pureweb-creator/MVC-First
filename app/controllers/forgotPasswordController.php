@@ -1,5 +1,7 @@
 <?php
-use views\View;;
+use views\View;
+
+//require_once "/models/Model.php";
 
 include 'mainController.php';
 $cookies = is_logged();

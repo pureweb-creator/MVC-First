@@ -15,6 +15,7 @@
                 <form @submit.prevent="signUp" class="form">
 
                     <span class="help text-danger" v-if="errors.noLogin == true">Enter login</span>
+                    <span class="help text-danger" v-if="errors.emailNotSent == true">Sorry, something went wrong.</span>
                     <p class="input-group">
                         <input type="text" class="form-control" placeholder="Login" v-model="login">
                     </p>

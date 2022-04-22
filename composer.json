@@ -13,6 +13,7 @@
     "psr/http-message": "*",
     "twig/twig": "*",
     "robmorgan/phinx": "*",
-    "phpmailer/phpmailer": "*"
+    "phpmailer/phpmailer": "*",
+    "symfony/yaml": "^5.4"
   }
 }

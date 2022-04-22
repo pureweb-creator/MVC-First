@@ -27,10 +27,7 @@ class Filter extends Model
      * @example Example of usage
      *
      * <pre>
-     *  require_once '../app/models/Filter.php';
-     *  use models\Filter;
-     *
-     *  $filter = new Filter();
+     *  $filter = new models\Filter();
      *  $products = $filter->filterProducts([
      *      'order_by' => ['price','ASC'],
      *      'conditions' => [

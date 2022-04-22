@@ -47,7 +47,9 @@ else if (empty($errors)){
     $subject = "=?UTF-8?B?".base64_encode("Confirm e-mail")."?=";
     $additional_headers = "Content-type: text/html\nReply-to: testing@gmail.com\nFrom: testing@gmail.com";
     $message = "<a href='http://localhost/phptutor/mvcproj/confirm?hash=".$hash."'>Follow this link to confirm your account</a>";
-    mail($to, $subject, $message, $additional_headers);
+    
+    if (!mail($to, $subject, $message, $additional_headers))
+        $errors['emailNotSent'] = true;
 }
 
 echo $model->makeResponse($errors);

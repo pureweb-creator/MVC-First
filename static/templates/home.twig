@@ -1,6 +1,6 @@
-{% include 'includes/header.twig' with {'title': page_title,'user': logged_user} %}
+{% include 'includes/header.twig' with {'title': page_title,'user': logged_user, 'app_id': app_id} %}
 
-<main id='account'>
+<main>
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -22,7 +22,7 @@
             <div class="col-12 col-lg-10">
                 <div class="row">
                     <div class="col-12 col-lg-3 col-md-3 col-sm-6 ms-auto mb-3">
-                        <select class="form-select" aria-label="Default select example" name="orderBy" id="orderBy" class="ml-auto d-block mb-3" v-model="ordering" @change="doFilter" style="width: 100%">
+                        <select class="form-select" aria-label="Default select" name="orderBy" id="orderBy" class="ml-auto d-block mb-3" v-model="ordering" @change="doFilter" style="width: 100%">
                             <option value="price|asc">From cheap to expensive</option>
                             <option value="price|desc">From expensive to cheap</option>
                             <option value="pub_date|asc">From new to old</option>
@@ -32,9 +32,38 @@
                 </div>
                 <div class="row">
                     <product-card
-                        v-for="product in products"
+                        v-for="(product, index) in products"
                         v-bind:product="product"
                     ></product-card>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class='modal fade' id='exampleModal' tabindex='-1' aria-labelledby='exampleModalLabel'
+     aria-hidden='true'>
+        <div class='modal-dialog modal-lg'>
+            <div class='modal-content'>
+                <div class='modal-header'>
+                    <h5 class='modal-title' id='exampleModalLabel'>Cart</h5>
+                    <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+                </div>
+                <div class='modal-body'>
+                    <div class="row">
+                        <p class='alert alert-danger' v-if="cartProducts==undefined">No products</p>
+                        <div class="table-responsive shopping-cart" v-else>
+                            <cart-product-card
+                                    :products="cartProducts"
+                            ></cart-product-card>
+                        </div>
+
+                        <div class="shopping-cart-footer">
+                            <div class="column text-lg">Subtotal: <span class="text-medium">$[[totals || 0 ]]</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class='modal-footer'>
+                    <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Close</button>
                 </div>
             </div>
         </div>

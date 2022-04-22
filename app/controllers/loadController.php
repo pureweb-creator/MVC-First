@@ -6,7 +6,7 @@ use models\Model;
 $model = new Model();
 $model->withQueryParams($_GET);
 $table = $model->getQueryParams();
-$table = $table['category'];
+$table = $table['table'];
 $products = $model->loadAll($table);
 
 echo $model->makeResponse($products);

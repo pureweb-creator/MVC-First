@@ -7,8 +7,6 @@
  */
 namespace models;
 
-use Cake\Database\Statement\PDOStatement;
-use JetBrains\PhpStorm\Pure;
 use \Psr\Http\Message\ServerRequestInterface;
 use \Psr\Http\Message\StreamInterface;
 use \Psr\Http\Message\UriInterface;
@@ -68,9 +66,7 @@ class Model extends Dbh implements ServerRequestInterface
      * @example Example of usage
      *
      * ```
-     * require_once '../app/models/Model.php';
-     * use models\Model;
-     * $model = new Model();
+     * $model = new models\Model();
      * $users = $model->load('user', 'id = ?', [1]);
      * echo $model->makeResponse($users);
      * ```
@@ -135,6 +131,52 @@ class Model extends Dbh implements ServerRequestInterface
     }
 
     /**
+     * Load products
+     *
+     * @param $array
+     * @return array
+     */
+    public function loadProducts($array): array
+    {
+        $product_ids = "";
+        foreach ($array['product_id'] as $item)
+            $product_ids .= $item['pid'].",";
+        $product_ids = rtrim($product_ids, ", ");
+        $product_ids = explode(",", $product_ids);
+        $quotations = str_repeat("?, ", count($array['product_id']) - 1) . '?';
+
+        try{
+            $query = "SELECT * FROM product WHERE id IN ($quotations)";
+            $statement = $this->connect()->prepare($query);
+            $statement->execute($product_ids);
+        } catch (\PDOException $e){
+            return [$e->getMessage()];
+        }
+
+        return $this->render($statement);
+    }
+
+    /**
+     * Removes smth
+     *
+     * @param $table
+     * @param $where
+     * @param $values
+     * @return array|string
+     */
+    public function remove($table, $where, $values){
+        try{
+            $query = "DELETE FROM $table WHERE $where";
+            $statement = $this->connect()->prepare($query);
+            $statement->execute($values);
+
+            return $query;
+        } catch (\PDOException $e){
+            return [$e->getMessage()];
+        }
+    }
+
+    /**
      * Inserts selected data to selected table
      * 
      * @param string table name
@@ -183,6 +225,7 @@ class Model extends Dbh implements ServerRequestInterface
      * $model = new Model();
      * $model->update('user','name, email','id = ?',[2]);
      * </pre>
+     * 
      * @return string
      */
     public function update($table,$fields,$where,$values): string

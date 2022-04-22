@@ -18,6 +18,7 @@ $args = [
     "page_title"=>"HOME",
     "logged_user"=>$user,
     "categories"=>$categories,
+    "app_id"=>"account",
     "categories_title"=>"Categories"
 ];
 

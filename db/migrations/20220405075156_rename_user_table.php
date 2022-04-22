@@ -27,6 +27,8 @@ class RenameUserTable extends AbstractMigration
      */
     public function change()
     {
-        $this->table('users')->rename('user')->update();
+        $this->table('users')
+        ->rename('user')
+        ->update();
     }
 }

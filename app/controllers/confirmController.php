@@ -11,5 +11,11 @@ if (!isset($hash)) die("Something went wrong");
 $user = $model->load('user', 'hash = ?', [$hash]);
 if ($user){
     $model->update("user", "email_confirmed = ?", "id = ?", [1,$user[0]["id"]]);
+
+    // remove a cookie
+    $model->withCookieParams([
+        "logged_user"=>""
+    ]);
+
     header("Location: ./home");
 }

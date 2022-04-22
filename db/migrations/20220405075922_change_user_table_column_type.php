@@ -28,9 +28,13 @@ class ChangeUserTableColumnType extends AbstractMigration
     public function change()
     {
         if ($this->table('user')->hasColumn('email'))
-            $this->table('user')->changeColumn('email', 'string',['limit'=>319])->update();
+            $this->table('user')
+        ->changeColumn('email', 'string',['limit'=>319])
+        ->update();
 
         if ($this->table('user')->hasColumn('password'))
-            $this->table('user')->changeColumn('password', 'binary',['limit'=>60])->update();
+            $this->table('user')
+        ->changeColumn('password', 'binary',['limit'=>60])
+        ->update();
     }
 }
