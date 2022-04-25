@@ -2,20 +2,16 @@
 /**
  * Сюда мы попадаем из письма
  */
-use models\Model;
+use controllers\classes\Controller;
 use views\View;
-require 'mainController.php';
 
-$model = new Model();
-$model->withQueryParams($_GET);
-$params = $model->getQueryParams();
-$hash = $params['hash'];
-
-$is_logged = is_logged();
+$hash = $_GET['hash'];
+$contr = new Controller();
+$is_logged = $contr->is_logged();
 
 if (!isset($hash)) die('Something went wrong');
 
-$user = $model->load('user', 'hash = ?', [$hash]);
+$user = $contr->load('user', 'hash = ?', [$hash]);
 $user = $user[0];
 
 if ($user) {

@@ -1,17 +1,15 @@
 <?php
+use controllers\classes\Controller;
 use views\View;
-use models\Model;
 
-require 'mainController.php';
-$cookies = is_logged();
-
-if (!isset($cookies['is_logged_out'])) {
+$contr = new Controller();
+$user = $contr->is_logged();
+if (!isset($user['is_logged_out']))
     header('Location: ./home');
-}
 
 $args = [
     'page_title' => 'Sign Up',
-    'logged_user' => $cookies,
+    'logged_user' => $user,
     'user_registered'=>"Please, check your email"
 ];
 

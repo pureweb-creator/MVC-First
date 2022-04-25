@@ -1,42 +1,27 @@
 <?php
-
-/**
- * 1. Убираем autoload, оствляем только тот что для vendor
- * 2. Все файлы в контроллерах подключаем вручную
- * 2.1 Пути в подключаемых файлах должны быть абсолютными
- * - При необходимости перехватить выходной поток (буферизация вывода)
- * 3. Все что в файлах *Handle.php переходит в методы классов контроллера.
- * 3.1 Создать котроллеры под фильтр, корзину и авторизацию
- * 3.2 Создать папку controllers/classes
- * 3.3 Придумать какой-то другой нейминг контроллеров. Например, load.contr.php и filter.classes.php или че-то наподобие
- */
-
-require realpath('app/kernel/autoload.php');
+require_once "app/kernel/config.php";
 
 $model = new Models\Model();
-$model->withQueryParams($_GET);
-$fn = key($model->getQueryParams());
+$fn = key($_GET);
 
 # Start routing
 if (empty($fn) || $fn == "home") {
-    include 'app/controllers/homeController.php';
+    include 'app/controllers/home.php';
     exit();
 }
 
-if (!file_exists("app/controllers/".$fn."Controller.php"))
-    include 'app/controllers/notFoundController.php';
-
 switch ($fn){
-    case 'login': include 'app/controllers/loginController.php';
+    case 'login': include 'app/controllers/login.php';
         break;
-    case 'logout': include 'app/controllers/logoutController.php';
+    case 'logout': include 'app/controllers/logout.php';
         break;
-    case 'signup': include 'app/controllers/signUpController.php';
+    case 'signup': include 'app/controllers/signup.php';
         break;
-    case 'forgotPassword': include 'app/controllers/forgotPasswordController.php';
+    case 'forgotPassword': include 'app/controllers/forgot.php';
         break;
-    case 'confirm': include 'app/controllers/confirmController.php';
+    case 'confirm': include 'app/controllers/inc/confirm-contr.php';
         break;
-    case 'reset': include 'app/controllers/resetController.php';
+    case 'reset': include 'app/controllers/reset.php';
         break;
+    default: include 'app/controllers/404.php';
 }

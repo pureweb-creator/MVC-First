@@ -1,4 +1,5 @@
 $(document).ready(function(){
+
     Vue.component('cart-product-card', {
         props: ['products'],
         delimiters: ['[[', ']]'],
@@ -7,14 +8,14 @@ $(document).ready(function(){
         },
         methods: {
             removeFromCart: function (id){
-                axios.get('app/controllers/cart/removeFromCartController.php?id='+id)
+                axios.get('app/controllers/inc/cart-remove-contr.php?id='+id)
                   .then(response => {
                       console.log(response.data)
                       account.getCart()
                   })
             },
             clearCart: function (){
-                axios.get('app/controllers/cart/clearCartController.php?')
+                axios.get('app/controllers/inc/cart-clear-contr')
                     .then(response => {
                         console.log(response.data)
                         account.getCart()
@@ -65,7 +66,7 @@ $(document).ready(function(){
         },
         methods: {
             addToCart: function (id) {
-                let url = "app/controllers/cart/cartController.php?pid=" + id
+                let url = "app/controllers/inc/cart-add-contr.php?pid=" + id
                 axios
                     .get(url)
                     .then(response => {
@@ -127,7 +128,7 @@ $(document).ready(function(){
 
                     axios({
                         method: "post",
-                        url: "app/controllers/login/loginControllerHandle.php",
+                        url: "app/controllers/inc/login-contr.php",
                         data: formData
                     })
                         .then(response => {
@@ -165,7 +166,7 @@ $(document).ready(function(){
 
                     axios({
                         method: "post",
-                        url: "app/controllers/login/signUpControllerHandle.php",
+                        url: "app/controllers/inc/signup-contr.php",
                         data: formData,
                     })
                         .then(response => {
@@ -201,26 +202,26 @@ $(document).ready(function(){
             },
             methods: {
                 getAllProducts: function () {
-                    axios.get('app/controllers/loadController.php?table=product')
+                    axios.get('app/controllers/inc/load-contr.php?table=product')
                         .then(response => {
                             this.products = response.data
-                            // console.log(this.products)
+                            console.log(response.data)
                         })
                 },
                 doFilter: function () {
-                    axios.get('app/controllers/filter/filterController.php?categories=' + this.categories + "&ordering=" + this.ordering)
+                    axios.get('app/controllers/inc/filter-contr.php?categories=' + this.categories + "&ordering=" + this.ordering)
                         .then(response => {
                             // console.log(response.data)
                             this.products = response.data
                         })
                 },
                 getCart: function () {
-                    axios.get('app/controllers/cart/loadCartController.php')
+                    axios.get('app/controllers/inc/load-cart-contr.php')
                         .then(response => {
                             this.cartProducts = response.data[0]
                             this.cartCount = response.data[1]
                             this.totals = response.data[2]
-                            console.log(this.cartProducts)
+                            console.log(this.response)
                         })
                 }
 
@@ -248,16 +249,15 @@ $(document).ready(function(){
 
                     axios({
                         method: "post",
-                        url: "app/controllers/login/forgotPasswordControllerHandle.php",
+                        url: "app/controllers/inc/forgot-contr.php",
                         data: formData,
                     })
                         .then(response => {
                             this.errors = response.data
-                            // console.log(response.data)
-                            // console.log(Object.keys(response.data),Object.values(response.data))
+                            console.log(response.data)
                         })
                         .catch(response => {
-                            // console.log(response.data)
+                            console.log(response.data)
                         })
                 }
 
@@ -285,7 +285,7 @@ $(document).ready(function(){
 
                     axios({
                         method: "post",
-                        url: "app/controllers/login/newPasswordController.php",
+                        url: "app/controllers/inc/newpass-contr.php",
                         data: formData,
                     })
                         .then(response => {

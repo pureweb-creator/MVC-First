@@ -86,7 +86,7 @@ abstract class Dbh
 	protected function connect(){
 		try{
             return new \PDO($this->dsn, $this->user, $this->pass, $this->opt);
-		} catch (PDOException $e){
+		} catch (\PDOException $e){
 			die("No connection to database");
 		}
 	}

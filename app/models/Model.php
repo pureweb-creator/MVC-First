@@ -47,6 +47,11 @@ class Model extends Dbh implements ServerRequestInterface
      */
     private $cookieParams;
 
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     /**
      * Stores fetched data
      *
@@ -91,7 +96,7 @@ class Model extends Dbh implements ServerRequestInterface
      *
      * @return array
      */
-    public function loadAll($table): array
+    public function loadAll($table)
     {
         try{
             $statement = "SELECT * FROM $table";
@@ -164,7 +169,8 @@ class Model extends Dbh implements ServerRequestInterface
      * @param $values
      * @return array|string
      */
-    public function remove($table, $where, $values){
+    public function remove($table, $where, $values)
+    {
         try{
             $query = "DELETE FROM $table WHERE $where";
             $statement = $this->connect()->prepare($query);

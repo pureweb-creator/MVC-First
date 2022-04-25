@@ -1,16 +1,15 @@
 <?php
+use controllers\classes\Controller;
 use views\View;
 
-include_once "mainController.php";
-
-$cookies = is_logged();
-
-if (!isset($cookies['is_logged_out']))
+$contr = new Controller();
+$user = $contr->is_logged();
+if (!isset($user['is_logged_out']))
     header('Location: ./home');
 
 $args = [
     'page_title' => 'Login',
-    'logged_user' => $cookies
+    'logged_user' => $user
 ];
 
 $tpl = new View(false, true);
