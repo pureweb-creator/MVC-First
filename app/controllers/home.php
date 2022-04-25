@@ -16,6 +16,7 @@ $args = [
     "app_id"=>"account",
     "logged_user"=>$user,
     "categories"=>$categories,
+    "root"=>SITEPATH
 ];
 $tpl = new View(false,true);
 $tpl->render("home.twig", $args);

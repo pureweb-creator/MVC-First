@@ -3,7 +3,7 @@
  * Сюда приходит обработчик из Vue
  */
 
-require_once realpath('../../kernel/autoload.php');
+require_once realpath('../../kernel/config.php');
 use controllers\classes\RestorepwdController;
 
 $data = $_POST;

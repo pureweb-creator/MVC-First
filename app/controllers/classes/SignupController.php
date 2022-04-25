@@ -35,7 +35,7 @@ class SignupController extends Controller
             $to = $this->email;
             $subject = "=?UTF-8?B?".base64_encode("Confirm e-mail")."?=";
             $additional_headers = "Content-type: text/html\nReply-to: testing@gmail.com\nFrom: testing@gmail.com";
-            $message = "<a href='http://localhost/phptutor/mvcproj/confirm?hash=".$hash."'>Follow this link to confirm your account</a>";
+            $message = "<a href='".SITEPATH."/confirm?hash=".$hash."'>Follow this link to confirm your account</a>";
 
             if (!mail($to, $subject, $message, $additional_headers))
                 $this->errors['emailNotSent'] = true;

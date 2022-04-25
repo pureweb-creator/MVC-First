@@ -1,23 +1,81 @@
 $(document).ready(function(){
+    const SITEURL = $('body').data('site-url');
 
+    Vue.component('product-card', {
+        props: {
+            product: Object
+        },
+        delimiters: ['[[', ']]'],
+        data() {
+            return {
+                errored: false,
+                response: {}
+            }
+        },
+        methods: {
+            addToCart: function (id) {
+                let url = SITEURL+"/app/controllers/inc/cart-add-contr.php?pid=" + id
+                axios
+                    .get(url)
+                    .then(response => {
+                        this.response = response.data
+                        account.getCart()
+                        $('#exampleModal').modal('show')
+                        // console.log(response.data)
+                    })
+                    .catch(error => {
+                        this.errored = true
+                        console.log(error)
+                    })
+            }
+        },
+        template: `
+        <div class="col-lg-3 col-md-6 col-12 mb-4" :pid="[[ product.id ]]">
+            <li class="card h-100">
+                <div class="card-body">
+                    <figure>
+                        <img loading="lazy" :src="[[ product.image ]]" :title="[[ product.name ]]" :alt="[[ product.name ]]" class="card-img-top">
+                    </figure>
+                    <h5 class="card-title">[[ product.name ]]</h5>
+                    <span class="text-success size-lg">$[[ product.price ]]</span>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary" @click="addToCart(product.id)">
+                        Add to cart
+                        
+                        <!-- empty icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                          <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                        </svg>
+                         
+                    </button>
+                    <p class="text-danger" v-if="errored">Sorry, something went wrong.</p>
+                    <p class="text-danger" v-if="response.productAlreadyAdded">This product already in cart.</p>
+                </div>
+            </li>
+        </div>
+    `
+    });
     Vue.component('cart-product-card', {
-        props: ['products'],
+        props: {
+            products: Array
+        },
         delimiters: ['[[', ']]'],
         data() {
             return {}
         },
         methods: {
             removeFromCart: function (id){
-                axios.get('app/controllers/inc/cart-remove-contr.php?id='+id)
-                  .then(response => {
-                      console.log(response.data)
-                      account.getCart()
-                  })
+                axios.get(SITEURL+"/app/controllers/inc/cart-remove-contr.php?id='+id")
+                    .then(response => {
+                        // console.log(response.data)
+                        account.getCart()
+                    })
             },
             clearCart: function (){
-                axios.get('app/controllers/inc/cart-clear-contr')
+                axios.get(SITEURL+"/app/controllers/inc/cart-clear-contr")
                     .then(response => {
-                        console.log(response.data)
+                        // console.log(response.data)
                         account.getCart()
                     })
             }
@@ -55,59 +113,6 @@ $(document).ready(function(){
             </table>
         `
     });
-    Vue.component('product-card', {
-        props: ['product'],
-        delimiters: ['[[', ']]'],
-        data() {
-            return {
-                errored: false,
-                response: {}
-            }
-        },
-        methods: {
-            addToCart: function (id) {
-                let url = "app/controllers/inc/cart-add-contr.php?pid=" + id
-                axios
-                    .get(url)
-                    .then(response => {
-                        this.response = response.data
-                        account.getCart()
-                        $('#exampleModal').modal('show')
-                    })
-                    .catch(error => {
-                        this.errored = true
-                        console.log(error)
-                    })
-            }
-        },
-        template: `
-        <div class="col-lg-3 col-md-6 col-12 mb-4" :pid="[[ product.id ]]">
-            <li class="card h-100">
-                <div class="card-body">
-                    <figure>
-                        <img loading="lazy" :src="[[ product.image ]]" :title="[[ product.name ]]" :alt="[[ product.name ]]" class="card-img-top">
-                    </figure>
-                    <h5 class="card-title">[[ product.name ]]</h5>
-                    <span class="text-success size-lg">$[[ product.price ]]</span>
-                </div>
-                <div class="card-footer">
-                    
-                    <button class="btn btn-primary" @click="addToCart(product.id)">
-                        Add to cart
-                        
-                        <!-- empty icon -->
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
-                          <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                        </svg>
-                         
-                    </button>
-                    <p class="text-danger" v-if="errored">Sorry, something went wrong.</p>
-                    <p class="text-danger" v-if="response.productAlreadyAdded">This product already in cart.</p>
-                </div>
-            </li>
-        </div>
-    `
-    });
 
     if ($('#loginApp').length) {
         new Vue({
@@ -128,12 +133,12 @@ $(document).ready(function(){
 
                     axios({
                         method: "post",
-                        url: "app/controllers/inc/login-contr.php",
+                        url: SITEURL+"/app/controllers/inc/login-contr.php",
                         data: formData
                     })
                         .then(response => {
                             this.errors = response.data
-                            console.log(this.errors)
+                            // console.log(this.errors)
 
                             if (response.data.length == 0)
                                 window.location.href = "/phptutor/mvcproj/"
@@ -166,13 +171,13 @@ $(document).ready(function(){
 
                     axios({
                         method: "post",
-                        url: "app/controllers/inc/signup-contr.php",
+                        url: SITEURL+"/app/controllers/inc/signup-contr.php",
                         data: formData,
                     })
                         .then(response => {
                             this.errors = response.data
-                            console.log(response.data)
-                            console.log(Object.keys(response.data), Object.values(response.data))
+                            // console.log(response.data)
+                            // console.log(Object.keys(response.data), Object.values(response.data))
 
                             if (response.data.length == 0) {
                                 this.success = true;
@@ -186,6 +191,7 @@ $(document).ready(function(){
             }
         });
     }
+
     if ($('#account').length) {
         var account = new Vue({
             el: "#account",
@@ -202,21 +208,21 @@ $(document).ready(function(){
             },
             methods: {
                 getAllProducts: function () {
-                    axios.get('app/controllers/inc/load-contr.php?table=product')
+                    axios.get(SITEURL+'/app/controllers/inc/load-contr.php?table=product')
                         .then(response => {
                             this.products = response.data
-                            console.log(response.data)
+                            // console.log(response.data)
                         })
                 },
                 doFilter: function () {
-                    axios.get('app/controllers/inc/filter-contr.php?categories=' + this.categories + "&ordering=" + this.ordering)
+                    axios.get(SITEURL+'/app/controllers/inc/filter-contr.php?categories=' + this.categories + "&ordering=" + this.ordering)
                         .then(response => {
                             // console.log(response.data)
                             this.products = response.data
                         })
                 },
                 getCart: function () {
-                    axios.get('app/controllers/inc/load-cart-contr.php')
+                    axios.get(SITEURL+'/app/controllers/inc/load-cart-contr.php')
                         .then(response => {
                             this.cartProducts = response.data[0]
                             this.cartCount = response.data[1]
@@ -232,6 +238,7 @@ $(document).ready(function(){
             }
         })
     }
+
     if ($('#resetPassword').length) {
         new Vue({
             el: '#resetPassword',
@@ -249,7 +256,7 @@ $(document).ready(function(){
 
                     axios({
                         method: "post",
-                        url: "app/controllers/inc/forgot-contr.php",
+                        url: SITEURL+"/app/controllers/inc/forgot-contr.php",
                         data: formData,
                     })
                         .then(response => {
@@ -285,13 +292,13 @@ $(document).ready(function(){
 
                     axios({
                         method: "post",
-                        url: "app/controllers/inc/newpass-contr.php",
+                        url: SITEURL+"/app/controllers/inc/newpass-contr.php",
                         data: formData,
                     })
                         .then(response => {
                             this.errors = response.data
-                            console.log(response.data)
-                            console.log(Object.keys(response.data), Object.values(response.data))
+                            // console.log(response.data)
+                            // console.log(Object.keys(response.data), Object.values(response.data))
 
                             if (response.data.length == 0)
                                 window.location.href = "/phptutor/mvcproj/login"

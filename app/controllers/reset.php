@@ -19,7 +19,8 @@ if ($user) {
     $args = [
         'page_title' => 'Enter new password',
         'logged_user' => $is_logged,
-        'user' => $user
+        'user' => $user,
+        'root'=> SITEPATH
     ];
 
     $tpl = new View(false, true);

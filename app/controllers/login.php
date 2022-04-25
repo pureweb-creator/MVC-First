@@ -9,7 +9,8 @@ if (!isset($user['is_logged_out']))
 
 $args = [
     'page_title' => 'Login',
-    'logged_user' => $user
+    'logged_user' => $user,
+    'root'=>SITEPATH
 ];
 
 $tpl = new View(false, true);

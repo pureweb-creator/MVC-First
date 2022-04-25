@@ -1,5 +1,11 @@
-{% include 'includes/header.twig' with {'title': page_title,'user': logged_user} %}
-
+{%
+    include 'includes/header.twig' with
+    {
+        'title': page_title,
+        'user': logged_user,
+        'root': root
+    }
+%}
 <main id="loginApp">
     <div class="container">
         <div class="row">
@@ -27,4 +33,10 @@
     </div>
 </main>
 
-{% include 'includes/footer.twig' %}
+
+{%
+    include 'includes/footer.twig' with
+    {
+        'root': root
+    }
+%}

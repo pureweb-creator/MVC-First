@@ -1,4 +1,12 @@
-{% include 'includes/header.twig' with {'title': page_title,'user': logged_user, 'app_id': app_id} %}
+{%
+    include 'includes/header.twig' with
+    {
+        'title': page_title,
+        'user': logged_user,
+        'app_id': app_id,
+        'root': root
+    }
+%}
 
 <main>
     <div class="container">
@@ -39,35 +47,11 @@
             </div>
         </div>
     </div>
-
-    <div class='modal fade' id='exampleModal' tabindex='-1' aria-labelledby='exampleModalLabel'
-     aria-hidden='true'>
-        <div class='modal-dialog modal-lg'>
-            <div class='modal-content'>
-                <div class='modal-header'>
-                    <h5 class='modal-title' id='exampleModalLabel'>Cart</h5>
-                    <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
-                </div>
-                <div class='modal-body'>
-                    <div class="row">
-                        <p class='alert alert-danger' v-if="cartProducts==undefined">No products</p>
-                        <div class="table-responsive shopping-cart" v-else>
-                            <cart-product-card
-                                    :products="cartProducts"
-                            ></cart-product-card>
-                        </div>
-
-                        <div class="shopping-cart-footer">
-                            <div class="column text-lg">Subtotal: <span class="text-medium">$[[totals || 0 ]]</span></div>
-                        </div>
-                    </div>
-                </div>
-                <div class='modal-footer'>
-                    <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
 </main>
 
-{% include 'includes/footer.twig' %}
+{%
+    include 'includes/footer.twig' with
+    {
+        'root': root
+    }
+%}

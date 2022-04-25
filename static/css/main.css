@@ -224,7 +224,33 @@ select.form-control {
     margin-right: 12px;
 }
 
+.header{
+    position: fixed;
+    width: 100%;
+}
+
+body{
+    min-height: 100vh;
+}
+
+.app{
+    height: 100vh;
+}
+
 .form-control-sm:not(textarea) {
     height: 36px;
+}
+
+.page_404 {
+    height: 100%;
+    margin-top: -56px;
+    display: flex;
+    align-items: center;
+}
+
+.page__404-code {
+    font-size: 160px;
+    color: #e5493a;
+    font-weight: 700;
 }
 

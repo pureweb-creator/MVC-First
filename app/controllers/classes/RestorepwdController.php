@@ -28,7 +28,7 @@ class RestorepwdController extends Controller
             $hash = md5($this->email . time());
             $subject = '=?UTF-8?B?' . base64_encode('Reset password') . '?=';
             $additional_headers = "Content-type: text/html\nReply-to: testing@gmail.com\nFrom: testing@gmail.com";
-            $message = "<a href='http://localhost/phptutor/mvcproj/reset?hash=" . $hash . "'>Follow this link to confirm your account</a>";
+            $message = "<a href='".SITEPATH."/reset?hash=" . $hash . "'>Follow this link to confirm your account</a>";
 
             $this->update('user', 'hash = ?', 'email = ?', [$hash, $this->email]);
             if (!@mail($to, $subject, $message, $additional_headers))
