@@ -1,0 +1,20 @@
+.custom-checkbox{
+  cursor: pointer;
+  font-weight: 500;
+  text-transform: capitalize;
+  padding: 7px;
+  border-radius: 5px;
+  background: rgba($primary_bg, 0.2);
+
+  &__input{
+    display: none;
+  }
+
+  &__input:checked + &__icon{
+    @include checkboxIconActive;
+  }
+
+  &__icon{
+    @include checkboxIcon;
+  }
+}

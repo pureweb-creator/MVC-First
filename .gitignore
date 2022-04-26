@@ -2,3 +2,4 @@ vendor/
 examples/
 .phpdoc
 composer.lock
+node_modules/

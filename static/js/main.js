@@ -37,18 +37,14 @@ $(document).ready(function(){
                         <img loading="lazy" :src="[[ product.image ]]" :title="[[ product.name ]]" :alt="[[ product.name ]]" class="card-img-top">
                     </figure>
                     <h5 class="card-title">[[ product.name ]]</h5>
-                    <span class="text-success size-lg">$[[ product.price ]]</span>
                 </div>
                 <div class="card-footer">
-                    <button class="btn btn-primary" @click="addToCart(product.id)">
-                        Add to cart
-                        
-                        <!-- empty icon -->
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
-                          <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                        </svg>
-                         
-                    </button>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <button class="btn btn-primary" @click="addToCart(product.id)">
+                            Shop now
+                        </button>
+                        <span class="text-success card-footer__price"><strong>$[[ product.price ]]</strong></span>
+                    </div>
                     <p class="text-danger" v-if="errored">Sorry, something went wrong.</p>
                     <p class="text-danger" v-if="response.productAlreadyAdded">This product already in cart.</p>
                 </div>

@@ -1,0 +1,15 @@
+.card{
+  &-title{
+    text-transform: lowercase;
+
+    &:first-letter{
+      text-transform: uppercase;
+    }
+  }
+}
+
+.card-footer{
+  &__price{
+    font-size: 20px;
+  }
+}

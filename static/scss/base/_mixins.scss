@@ -1,0 +1,30 @@
+@mixin flex{
+  display: flex;
+}
+
+@mixin centerVertical{
+  @include flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin checkboxIcon{
+  width: 20px;
+  height: 20px;
+  background: transparent;
+  border: 3px solid $primary_bg;
+  border-radius: 50px;
+
+  @include centerVertical;
+}
+
+@mixin checkboxIconActive{
+  &::before{
+    content: "";
+    display: block;
+    width: 70%;
+    height: 70%;
+    background: $primary_bg;
+    border-radius: 50px;
+  }
+}
