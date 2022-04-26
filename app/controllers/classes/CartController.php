@@ -13,7 +13,7 @@ class CartController extends Controller
     private int $product_id;
     private int $totals = 0;
     private $products;
-    private $response;
+    private $response = [];
 
     public function __construct($pid = 0)
     {
@@ -71,6 +71,4 @@ class CartController extends Controller
         if ($this->isInCart()) return true;
 
     }
-
-
 }

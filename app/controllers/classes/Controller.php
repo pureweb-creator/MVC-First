@@ -25,7 +25,7 @@ class Controller extends Model
         header('Location: ./home');
     }
 
-    public function filter($array): array
+    public function filter($array)
     {
         $filter = new Filter();
         return $filter->filterProducts($array);

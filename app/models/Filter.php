@@ -25,9 +25,9 @@ class Filter extends Model
      *
      * @param array array parameters
      *
-     * @return array
+     * @return array|boolean
      */
-    public function filterProducts($array): array
+    public function filterProducts($array)
     {
         list($col,$type) = @array_values($array['order_by']);
         $condition = @$array['conditions'];
@@ -72,7 +72,7 @@ class Filter extends Model
 
             return $this->render($stmt);
         } catch (\PDOException $e) {
-            return [$e->getMessage()];
+            return false;
         }
     }
 }
