@@ -18,8 +18,8 @@ class CartController extends Controller
     public function __construct($pid = 0)
     {
         $user = $this->is_logged();
-        $this->user_id = $user['id'];
-        $this->product_id = $pid;
+        $this->user_id = (int) $user['id'];
+        $this->product_id = (int) $pid;
         parent::__construct();
     }
 

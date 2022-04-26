@@ -66,7 +66,7 @@ $(document).ready(function(){
         },
         methods: {
             removeFromCart: function (id){
-                axios.get(SITEURL+"/app/controllers/inc/cart-remove-contr.php?id='+id")
+                axios.get(SITEURL+`/app/controllers/inc/cart-remove-contr.php?id=${id}`)
                     .then(response => {
                         // console.log(response.data)
                         account.getCart()
@@ -208,7 +208,7 @@ $(document).ready(function(){
             },
             methods: {
                 getAllProducts: function () {
-                    axios.get(SITEURL+'/app/controllers/inc/load-contr.php?table=product')
+                    axios.get(SITEURL+`/app/controllers/inc/load-contr.php?table=product`)
                         .then(response => {
                             this.products = response.data
                             // console.log(response.data)
