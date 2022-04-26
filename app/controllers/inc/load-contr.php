@@ -5,6 +5,6 @@ use controllers\classes\Controller;
 
 $table = $_GET['table'];
 $contr = new Controller();
-$products = $contr->readAll($table);
+$products = $contr->loadAll($table);
 
 echo $contr->makeResponse($products);

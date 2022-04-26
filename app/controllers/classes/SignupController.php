@@ -15,29 +15,34 @@ class SignupController extends Controller
 
     public function __construct($login="",$pwd="", $pwdRepeat="", $email="")
     {
-        $this->login = $login;
-        $this->pwd = $pwd;
-        $this->pwdRepeat = $pwdRepeat;
-        $this->email = $email;
+        $this->login = htmlspecialchars($login);
+        $this->pwd = htmlspecialchars($pwd);
+        $this->pwdRepeat = htmlspecialchars($pwdRepeat);
+        $this->email = htmlspecialchars($email);
 
         parent::__construct();
     }
 
-    public function signup(): array
+    public function signup()
     {
         if (!$this->checkUser()){
             $hash = md5($this->login.time());
 
             $this->pwd = password_hash($this->pwd, PASSWORD_DEFAULT);
             $values = [$this->login,$this->email,$this->pwd,$hash,0];
-            $this->create('user', 'login, email, password, hash, email_confirmed', $values);
+
+            if (!$this->create('user', 'login, email, password, hash, email_confirmed', $values)){
+               $this->errors['smthWentWrong'] = true;
+               echo $this->makeResponse($this->errors);
+               die();
+            }
 
             $to = $this->email;
             $subject = "=?UTF-8?B?".base64_encode("Confirm e-mail")."?=";
             $additional_headers = "Content-type: text/html\nReply-to: testing@gmail.com\nFrom: testing@gmail.com";
             $message = "<a href='".SITEPATH."/confirm?hash=".$hash."'>Follow this link to confirm your account</a>";
 
-            if (!mail($to, $subject, $message, $additional_headers))
+            if (!@mail($to, $subject, $message, $additional_headers))
                 $this->errors['emailNotSent'] = true;
         }
 
@@ -47,6 +52,7 @@ class SignupController extends Controller
 
     private function checkUser()
     {
+        if ($this->allowedLogin()) return true;
         if ($this->emptyData($this->login, "noLogin")) return true;
         if ($this->emptyData($this->pwd, "noPassword")) return true;
         if ($this->emptyData($this->email, "noEmail")) return true;

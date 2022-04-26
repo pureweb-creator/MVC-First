@@ -16,7 +16,7 @@
             </div>
             <div class="col-8 m-auto">
                 <form @submit.prevent="doLogin" class="form">
-                    <p class="help text-danger" v-if="errors['wrongData']==true">Email or password is not correct</p>
+                    <p class="help text-danger" v-if="errors['wrongData']==true">Login or password is not correct</p>
                     <p class="input-group">
                         <input type="text" class="form-control" placeholder="Login" v-model="login">
                     </p>

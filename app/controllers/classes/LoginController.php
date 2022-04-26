@@ -14,8 +14,8 @@ class LoginController extends Controller
 
     public function __construct($login, $password)
     {
-        $this->login = $login;
-        $this->password = $password;
+        $this->login = htmlspecialchars($login);
+        $this->password = htmlspecialchars($password);
 
         parent::__construct();
     }
@@ -34,9 +34,9 @@ class LoginController extends Controller
         return $this->errors;
     }
 
-    private function checkUser(): bool
+    private function checkUser()
     {
-        return (bool)$this->wrongLoginData();
+        if ($this->wrongLoginData()) return true;
     }
 
 }

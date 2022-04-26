@@ -1,9 +1,7 @@
 <?php
 require_once "app/kernel/config.php";
 
-$model = new Models\Model();
 $fn = key($_GET);
-
 # Start routing
 if (empty($fn) || $fn == "home") {
     include 'app/controllers/home.php';
@@ -12,6 +10,8 @@ if (empty($fn) || $fn == "home") {
 
 switch ($fn){
     case 'login': include 'app/controllers/login.php';
+        break;
+    case 'test': include 'app/controllers/test.php';
         break;
     case 'logout': include 'app/controllers/logout.php';
         break;

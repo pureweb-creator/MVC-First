@@ -12,8 +12,8 @@ class CartController extends Controller
     private int $user_id;
     private int $product_id;
     private int $totals = 0;
-    private $products = [];
-    private $errors = [];
+    private $products;
+    private $response;
 
     public function __construct($pid = 0)
     {
@@ -23,23 +23,25 @@ class CartController extends Controller
         parent::__construct();
     }
 
-    public function loadCart(): array
+    public function loadCart()
     {
         $cart = new Cart();
         $products_in_cart_ids = $cart->loadCart([$this->user_id]);
 
-        if (!empty($products_in_cart_ids)) {
+        if (!empty($products_in_cart_ids) && $products_in_cart_ids) {
             $this->products = $this->loadProducts([
                 'product_id' => $products_in_cart_ids
             ]);
 
             foreach ($this->products as $item)
                 $this->totals += $item['price'];
+
+            echo $this->makeResponse($this->response = [$this->products, count($this->products), $this->totals]);
+            return true;
         }
 
-        $this->errors = [$this->products, count($this->products), $this->totals];
-        echo $this->makeResponse($this->errors);
-        return $this->errors;
+        echo $this->makeResponse($this->response = [false, false, false]);
+        return true;
     }
 
     public function addToCart(): array
@@ -47,11 +49,11 @@ class CartController extends Controller
         if (!$this->checkData())
         {
             $this->create('cart', 'pid,uid', [$this->product_id, $this->user_id]);
-            $this->errors['ok'] = true;
+            $this->response['ok'] = true;
         }
 
-        echo $this->makeResponse($this->errors);
-        return $this->errors;
+        echo $this->makeResponse($this->response);
+        return $this->response;
     }
 
     public function clearCart()

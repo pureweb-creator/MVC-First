@@ -19,9 +19,8 @@
                     {{ user_registered }}
                 </p>
                 <form @submit.prevent="signUp" class="form">
-
                     <span class="help text-danger" v-if="errors.noLogin == true">Enter login</span>
-                    <span class="help text-danger" v-if="errors.emailNotSent == true">Sorry, something went wrong.</span>
+                    <span class="help text-danger" v-if="errors.notValidLogin == true">Your login should be without [@_!#$%^&*()<>?/|}{~:] and shorten or equal then 20 chars</span>
                     <p class="input-group">
                         <input type="text" class="form-control" placeholder="Login" v-model="login">
                     </p>
@@ -43,7 +42,10 @@
                         <input type="password" class="form-control" placeholder="Repeat password" v-model="passwordRepeat">
                     </p>
 
-                    <span class="help text-danger" v-if="errors.userExists == true">User with this email already exists</span>
+                    <span class="help text-danger" v-if="errors.userExists == true">User with this email or login already exists</span>
+                    <span class="help text-danger" v-if="errors.smthWentWrong == true">Sorry, something went wrong.</span>
+                    <span class="help text-danger" v-if="errors.emailNotSent == true">Sorry, something went wrong.</span>
+
                     <br>
                     <p class="input-group">
                         <button class="btn btn-success" type="submit">Send</button>

@@ -172,7 +172,7 @@ $(document).ready(function(){
                     })
                         .then(response => {
                             this.errors = response.data
-                            // console.log(response.data)
+                            // console.log(this.errors)
                             // console.log(Object.keys(response.data), Object.values(response.data))
 
                             if (response.data.length == 0) {
@@ -199,7 +199,8 @@ $(document).ready(function(){
                     ordering: "pub_date|asc",
                     cartProducts: [],
                     cartCount: 0,
-                    totals: 0
+                    totals: 0,
+                    serverError: false
                 }
             },
             methods: {
@@ -223,10 +224,9 @@ $(document).ready(function(){
                             this.cartProducts = response.data[0]
                             this.cartCount = response.data[1]
                             this.totals = response.data[2]
-                            console.log(this.response)
+                            // console.log(response.data)
                         })
                 }
-
             },
             created() {
                 this.getAllProducts()

@@ -25,11 +25,6 @@ class Controller extends Model
         header('Location: ./home');
     }
 
-    public function readAll($table): array
-    {
-        return $this->loadAll($table);
-    }
-
     public function filter($array): array
     {
         $filter = new Filter();

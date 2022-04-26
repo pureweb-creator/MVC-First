@@ -1,15 +1,19 @@
 <div class="filter">
     <h4 class="mb-3">{{ title }}</h4>
     <div class="d-flex flex-column">
-    {% for category in categories %}
-        <div class="mb-2" role="group" aria-label="Basic checkbox toggle button group">
-            <label for="filter_cat_id_{{ category.id }}" class="custom-checkbox d-flex align-items-center">
-                <input @change="doFilter" class="custom-checkbox__input" type="checkbox" value="{{ category.id }}" v-model="categories" id="filter_cat_id_{{ category.id }}" autocomplete="off">
-                <span class="custom-checkbox__icon"></span>
+        {% if categories is iterable %}
+            {% for category in categories %}
+                <div class="mb-2" role="group" aria-label="Basic checkbox toggle button group">
+                    <label for="filter_cat_id_{{ category.id }}" class="custom-checkbox d-flex align-items-center">
+                        <input @change="doFilter" class="custom-checkbox__input" type="checkbox" value="{{ category.id }}" v-model="categories" id="filter_cat_id_{{ category.id }}" autocomplete="off">
+                        <span class="custom-checkbox__icon"></span>
 
-                {{ category.name }}
-            </label>
-        </div>
-    {% endfor %}
+                        {{ category.name }}
+                    </label>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="alert alert-danger">Failed to load categories. Server error occurred</p>
+        {% endif %}
     </div>
 </div>

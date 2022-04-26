@@ -4,7 +4,7 @@ namespace models;
 
 class Cart extends Model
 {
-    public function loadCart(array $value): array
+    public function loadCart(array $value)
     {
         try{
             $query = "SELECT pid FROM cart WHERE uid = ?";
@@ -13,7 +13,7 @@ class Cart extends Model
 
             return $this->render($statement);
         } catch (\PDOException $e){
-            return [$e->getMessage()];
+            return false;
         }
     }
 }

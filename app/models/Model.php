@@ -68,13 +68,6 @@ class Model extends Dbh implements ServerRequestInterface
      * Returns json encoded data
      * 
      * @param array data
-     * @example Example of usage
-     *
-     * ```
-     * $model = new models\Model();
-     * $users = $model->load('user', 'id = ?', [1]);
-     * echo $model->makeResponse($users);
-     * ```
      *
      * @return string
      */
@@ -87,12 +80,6 @@ class Model extends Dbh implements ServerRequestInterface
      * Reads all the data from the selected table
      * 
      * @param string table
-     * @example Example of usage
-     *
-     * ```
-     * $model = new Model();
-     * $users = $model->loadAll('user');
-     * ```
      *
      * @return array
      */
@@ -104,7 +91,7 @@ class Model extends Dbh implements ServerRequestInterface
 
             return $this->render($query);
         } catch (\PDOException $e){
-            return $e->getMessage();
+            return false;
         }
     }
 
@@ -115,11 +102,6 @@ class Model extends Dbh implements ServerRequestInterface
      * @param string where
      * @param array values
      *
-     * @example Example of usage
-     * <pre>
-     * $model = new Model();
-     * $model->load('user','id = ?',[1]);
-     * </pre>
      * @return array 
      */
     public function load($table, $where, $values): array
@@ -131,7 +113,7 @@ class Model extends Dbh implements ServerRequestInterface
 
             return $this->render($statement);
         } catch (\PDOException $e){
-            return [$e->getMessage()];
+            return false;
         }
     }
 
@@ -155,7 +137,7 @@ class Model extends Dbh implements ServerRequestInterface
             $statement = $this->connect()->prepare($query);
             $statement->execute($product_ids);
         } catch (\PDOException $e){
-            return [$e->getMessage()];
+            return false;
         }
 
         return $this->render($statement);
@@ -178,7 +160,7 @@ class Model extends Dbh implements ServerRequestInterface
 
             return $query;
         } catch (\PDOException $e){
-            return [$e->getMessage()];
+            return false;
         }
     }
 
@@ -189,14 +171,9 @@ class Model extends Dbh implements ServerRequestInterface
      * @param string fields list
      * @param array values
      *
-     * @example Example of usage
-     * <pre>
-     * $model = new Model();
-     * $model->create('user', 'name,email,password',['John','test@example.com','123'])
-     * </pre>
-     * @return string
+     * @return false
      */
-    public function create($table,$fields,$values): string
+    public function create($table,$fields,$values)
     {
         $prepared = "";
         for ($i=0; $i<count($values); $i++){
@@ -208,10 +185,10 @@ class Model extends Dbh implements ServerRequestInterface
             $statement = $this->connect()->prepare($query);
             $statement->execute($values);
 
-            return $query;
+            return [$query];
 
         } catch (\PDOException $e){
-            return $e->getMessage();
+            return false;
         }
     }
 
@@ -243,7 +220,7 @@ class Model extends Dbh implements ServerRequestInterface
 
            return $query;
        } catch (\PDOException $e){
-           return $e->getMessage();
+           return false;
        }
     }
 

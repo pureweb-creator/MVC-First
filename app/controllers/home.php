@@ -8,7 +8,7 @@ $user = $contr->is_logged();
 if (isset($user['is_logged_out']))
     header('Location: ./login');
 
-$categories = $contr->readAll('category');
+$categories = $contr->loadAll('category');
 
 $args = [
     "page_title"=>"HOME",
@@ -18,5 +18,6 @@ $args = [
     "categories"=>$categories,
     "root"=>SITEPATH
 ];
+
 $tpl = new View(false,true);
 $tpl->render("home.twig", $args);

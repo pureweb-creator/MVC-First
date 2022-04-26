@@ -17,20 +17,27 @@ class RestorepwdController extends Controller
         if (is_null($email))
             header("Location: ./home");
 
-        $this->email = $email;
+        $this->email = htmlspecialchars($email);
         parent::__construct();
     }
 
     public function forgot(): array
     {
         if (!$this->checkUser()){
-            $to = $this->email;
+
             $hash = md5($this->email . time());
+
+            if (!$this->update('user', 'hash = ?', 'email = ?', [$hash, $this->email])){
+                $this->errors['smthWentWrong'] = true;
+                echo $this->makeResponse($this->errors);
+                die();
+            }
+
+            $to = $this->email;
             $subject = '=?UTF-8?B?' . base64_encode('Reset password') . '?=';
             $additional_headers = "Content-type: text/html\nReply-to: testing@gmail.com\nFrom: testing@gmail.com";
-            $message = "<a href='".SITEPATH."/reset?hash=" . $hash . "'>Follow this link to confirm your account</a>";
+            $message = "<a href='" . SITEPATH . '/reset?hash=' . $hash . "'>Follow this link to confirm your account</a>";
 
-            $this->update('user', 'hash = ?', 'email = ?', [$hash, $this->email]);
             if (!@mail($to, $subject, $message, $additional_headers))
                 $this->errors['notSent'] = true;
             $this->errors['success'] = true;
@@ -42,12 +49,17 @@ class RestorepwdController extends Controller
 
     public function restore($pwd, $pwdRepeat): array
     {
-        $this->pwd = $pwd;
-        $this->pwdRepeat = $pwdRepeat;
+        $this->pwd = htmlspecialchars($pwd);
+        $this->pwdRepeat = htmlspecialchars($pwdRepeat);
 
         if (!$this->checkUserNewPwd()){
             $this->pwd = password_hash($this->pwd, PASSWORD_DEFAULT);
-            $this->update('user', 'password = ?', 'email = ?', [$this->pwd, $this->email]);
+
+            if (!$this->update('user', 'password = ?', 'email = ?', [$this->pwd, $this->email])){
+                $this->errors['smthWentWrong'] = true;
+                echo $this->makeResponse($this->errors);
+                die();
+            }
         }
 
         echo $this->makeResponse($this->errors);

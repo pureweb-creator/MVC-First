@@ -24,17 +24,6 @@ class Filter extends Model
      * It must be an array of values, where first element is column and second is a method of filtering, ASC or DESC.
      *
      * @param array array parameters
-     * @example Example of usage
-     *
-     * <pre>
-     *  $filter = new models\Filter();
-     *  $products = $filter->filterProducts([
-     *      'order_by' => ['price','ASC'],
-     *      'conditions' => [
-     *          'category_id' => [1,2,3,4,5]
-     *      ]
-     *  ]);
-     * </pre>
      *
      * @return array
      */

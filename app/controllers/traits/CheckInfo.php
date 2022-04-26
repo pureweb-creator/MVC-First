@@ -11,6 +11,13 @@ trait CheckInfo
         return $this->errors;
     }
 
+    private function allowedLogin(): array
+    {
+        if (preg_match('/[\'^$%!@^&*;()}{@#~?><>,|=+-]/', $this->login) || strlen($this->login) > 20)
+            $this->errors['notValidLogin'] = true;
+        return $this->errors;
+    }
+
     private function emptyData($data, $errorMessage): array
     {
         if (empty($data))
@@ -34,7 +41,7 @@ trait CheckInfo
 
     private function userExists(): array
     {
-        if ($this->load("user", "email = ?", [$this->email]))
+        if ($this->load("user", "login = ? OR email = ?", [$this->login, $this->email]))
             $this->errors['userExists'] = true;
         return $this->errors;
     }
