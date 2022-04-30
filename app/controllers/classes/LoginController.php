@@ -10,7 +10,6 @@ class LoginController extends Controller
     private string $login;
     private string $password;
     private array $user = [];
-    private $errors = [];
 
     public function __construct($login, $password)
     {
@@ -30,8 +29,8 @@ class LoginController extends Controller
             ]);
         }
 
-        echo $this->makeResponse($this->errors);
-        return $this->errors;
+        echo $this->makeResponse($this->response);
+        return $this->response;
     }
 
     private function checkUser()

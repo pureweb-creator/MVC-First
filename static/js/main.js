@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    const SITEURL = $('body').data('site-url');
+    const SITE_URL = $('body').data('site-url');
 
     Vue.component('product-card', {
         props: {
@@ -14,13 +14,15 @@ $(document).ready(function(){
         },
         methods: {
             addToCart: function (id) {
-                let url = SITEURL+"/app/controllers/inc/cart-add-contr.php?pid=" + id
+                let url = SITE_URL+"/app/controllers/inc/cart-add-contr.php?pid=" + id
                 axios
                     .get(url)
                     .then(response => {
                         this.response = response.data
                         account.getCart()
-                        $('#exampleModal').modal('show')
+
+                        if (!this.response.productAlreadyAdded)
+                            $('#exampleModal').modal('show')
                         // console.log(response.data)
                     })
                     .catch(error => {
@@ -45,8 +47,8 @@ $(document).ready(function(){
                         </button>
                         <span class="text-success card-footer__price"><strong>$[[ product.price ]]</strong></span>
                     </div>
-                    <p class="text-danger" v-if="errored">Sorry, something went wrong.</p>
-                    <p class="text-danger" v-if="response.productAlreadyAdded">This product already in cart.</p>
+                    <p class="text-danger" v-if="errored">Unexpected error</p>
+                    <p class="text-danger" v-if="response.productAlreadyAdded == true && product.id == response.current_pid">[[ response.errorsMessage ]]</p>
                 </div>
             </li>
         </div>
@@ -57,20 +59,18 @@ $(document).ready(function(){
             products: Array
         },
         delimiters: ['[[', ']]'],
-        data() {
-            return {}
-        },
         methods: {
             removeFromCart: function (id){
-                axios.get(SITEURL+`/app/controllers/inc/cart-remove-contr.php?id=${id}`)
+                axios.get(SITE_URL+`/app/controllers/inc/cart-remove-contr.php?id=${id}`)
                     .then(response => {
                         // console.log(response.data)
                         account.getCart()
                     })
             },
             clearCart: function (){
-                axios.get(SITEURL+"/app/controllers/inc/cart-clear-contr")
+                axios.get(SITE_URL+"/app/controllers/inc/cart-clear-contr")
                     .then(response => {
+                        this.errors= response.data
                         // console.log(response.data)
                         account.getCart()
                     })
@@ -117,7 +117,8 @@ $(document).ready(function(){
                 return {
                     login: "",
                     password: "",
-                    errors: {}
+                    errors: {},
+                    pwdHidden: true
                 }
             },
             delimiters: ['[[', ']]'],
@@ -129,7 +130,7 @@ $(document).ready(function(){
 
                     axios({
                         method: "post",
-                        url: SITEURL+"/app/controllers/inc/login-contr.php",
+                        url: SITE_URL+"/app/controllers/inc/login-contr.php",
                         data: formData
                     })
                         .then(response => {
@@ -153,7 +154,8 @@ $(document).ready(function(){
                     password: "",
                     passwordRepeat: "",
                     errors: {},
-                    success: false
+                    success: false,
+                    pwdHidden: false
                 }
             },
             delimiters: ['[[', ']]'],
@@ -167,12 +169,12 @@ $(document).ready(function(){
 
                     axios({
                         method: "post",
-                        url: SITEURL+"/app/controllers/inc/signup-contr.php",
+                        url: SITE_URL+"/app/controllers/inc/signup-contr.php",
                         data: formData,
                     })
                         .then(response => {
                             this.errors = response.data
-                            // console.log(this.errors)
+                            console.log(this.errors)
                             // console.log(Object.keys(response.data), Object.values(response.data))
 
                             if (response.data.length == 0) {
@@ -196,35 +198,35 @@ $(document).ready(function(){
                 return {
                     categories: [],
                     products: [],
-                    ordering: "pub_date|asc",
                     cartProducts: [],
+                    ordering: "pub_date|asc",
                     cartCount: 0,
-                    totals: 0,
-                    serverError: false
+                    totals: 0
                 }
             },
             methods: {
                 getAllProducts: function () {
-                    axios.get(SITEURL+`/app/controllers/inc/load-contr.php?table=product`)
+                    axios.get(SITE_URL+`/app/controllers/inc/load-contr.php?table=product`)
                         .then(response => {
                             this.products = response.data
-                            // console.log(response.data)
+                            console.log(response.data)
                         })
                 },
                 doFilter: function () {
-                    axios.get(SITEURL+'/app/controllers/inc/filter-contr.php?categories=' + this.categories + "&ordering=" + this.ordering)
+                    axios.get(SITE_URL+'/app/controllers/inc/filter-contr.php?categories=' + this.categories + "&ordering=" + this.ordering)
                         .then(response => {
                             // console.log(response.data)
                             this.products = response.data
                         })
                 },
                 getCart: function () {
-                    axios.get(SITEURL+'/app/controllers/inc/load-cart-contr.php')
+                    axios.get(SITE_URL+'/app/controllers/inc/load-cart-contr.php')
                         .then(response => {
-                            this.cartProducts = response.data[0]
+                            this.cartProducts = response.data[0] || response.data
                             this.cartCount = response.data[1]
                             this.totals = response.data[2]
-                            // console.log(response.data)
+
+                            // console.log(this.cartProducts)
                         })
                 }
             },
@@ -252,12 +254,12 @@ $(document).ready(function(){
 
                     axios({
                         method: "post",
-                        url: SITEURL+"/app/controllers/inc/forgot-contr.php",
+                        url: SITE_URL+"/app/controllers/inc/forgot-contr.php",
                         data: formData,
                     })
                         .then(response => {
                             this.errors = response.data
-                            console.log(response.data)
+                            // console.log(response.data)
                         })
                         .catch(response => {
                             console.log(response.data)
@@ -275,7 +277,8 @@ $(document).ready(function(){
                     newPassword: "",
                     newPasswordRepeat: "",
                     email: "",
-                    errors: {}
+                    errors: {},
+                    pwdHidden: false
                 }
             },
             delimiters: ['[[', ']]'],
@@ -288,7 +291,7 @@ $(document).ready(function(){
 
                     axios({
                         method: "post",
-                        url: SITEURL+"/app/controllers/inc/newpass-contr.php",
+                        url: SITE_URL+"/app/controllers/inc/newpass-contr.php",
                         data: formData,
                     })
                         .then(response => {

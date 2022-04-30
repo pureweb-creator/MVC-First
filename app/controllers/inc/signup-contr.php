@@ -1,5 +1,6 @@
 <?php
 require_once realpath('../../kernel/config.php');
+
 use controllers\classes\SignupController;
 
 $data = $_POST;

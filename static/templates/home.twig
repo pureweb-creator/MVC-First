@@ -1,5 +1,5 @@
 {%
-    include 'includes/header.twig' with
+    include 'inc/header.twig' with
     {
         'title': page_title,
         'user': logged_user,
@@ -25,7 +25,7 @@
         </div>
         <div class="row">
             <div class="col-12 col-lg-2">
-                {% include 'includes/filter-sidebar.twig' with {'categories': categories, 'title': categories_title} %}
+                {% include 'inc/filter-sidebar.twig' with {'categories': categories, 'title': categories_title} %}
             </div>
             <div class="col-12 col-lg-10">
                 <div class="row">
@@ -39,7 +39,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <p class="alert alert-danger" v-if="!products">Failed to load products. Server error occurred.</p>
+                    <p class="alert alert-danger" v-if="products.empty">[[ products.empty ]]</p>
                     <product-card
                             v-else
                             v-for="(product, index) in products"
@@ -52,7 +52,7 @@
 </main>
 
 {%
-    include 'includes/footer.twig' with
+    include 'inc/footer.twig' with
     {
         'root': root
     }

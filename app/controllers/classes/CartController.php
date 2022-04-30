@@ -13,7 +13,6 @@ class CartController extends Controller
     private int $product_id;
     private int $totals = 0;
     private $products;
-    private $response = [];
 
     public function __construct($pid = 0)
     {
@@ -40,7 +39,8 @@ class CartController extends Controller
             return true;
         }
 
-        echo $this->makeResponse($this->response = [false, false, false]);
+        $this->response = ["empty"=>$this->errorMsg["noProducts"]];
+        echo $this->makeResponse($this->response);
         return true;
     }
 

@@ -10,12 +10,17 @@ if (isset($user['is_logged_out']))
 
 $categories = $contr->loadAll('category');
 
+if (!$categories)
+    $errorText = ERROR_MSG["serverError"];
+global $errorText;
+
 $args = [
     "page_title"=>"HOME",
     "categories_title"=>"Options",
     "app_id"=>"account",
     "logged_user"=>$user,
     "categories"=>$categories,
+    "errorText"=>$errorText,
     "root"=>SITEPATH
 ];
 

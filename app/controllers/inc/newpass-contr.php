@@ -7,7 +7,7 @@ require_once realpath('../../kernel/config.php');
 use controllers\classes\RestorepwdController;
 
 $data = $_POST;
-$errors = [];
+$response = [];
 
 list($pwd, $pwdRepeat, $email) = array_values($data);
 $contr = new RestorepwdController($email);

@@ -10,7 +10,6 @@ class RestorepwdController extends Controller
     private string $email;
     private string $pwd;
     private string $pwdRepeat;
-    private $errors = [];
 
     public function __construct($email)
     {
@@ -28,8 +27,8 @@ class RestorepwdController extends Controller
             $hash = md5($this->email . time());
 
             if (!$this->update('user', 'hash = ?', 'email = ?', [$hash, $this->email])){
-                $this->errors['smthWentWrong'] = true;
-                echo $this->makeResponse($this->errors);
+                $this->response['smthWentWrong'] = true;
+                echo $this->makeResponse($this->response);
                 die();
             }
 
@@ -39,12 +38,12 @@ class RestorepwdController extends Controller
             $message = "<a href='" . SITEPATH . '/reset?hash=' . $hash . "'>Follow this link to confirm your account</a>";
 
             if (!@mail($to, $subject, $message, $additional_headers))
-                $this->errors['notSent'] = true;
-            $this->errors['success'] = true;
+                $this->response['notSent'] = true;
+            $this->response['success'] = true;
         }
 
-        echo $this->makeResponse($this->errors);
-        return $this->errors;
+        echo $this->makeResponse($this->response);
+        return $this->response;
     }
 
     public function restore($pwd, $pwdRepeat): array
@@ -56,14 +55,14 @@ class RestorepwdController extends Controller
             $this->pwd = password_hash($this->pwd, PASSWORD_DEFAULT);
 
             if (!$this->update('user', 'password = ?', 'email = ?', [$this->pwd, $this->email])){
-                $this->errors['smthWentWrong'] = true;
-                echo $this->makeResponse($this->errors);
+                $this->response['smthWentWrong'] = true;
+                echo $this->makeResponse($this->response);
                 die();
             }
         }
 
-        echo $this->makeResponse($this->errors);
-        return $this->errors;
+        echo $this->makeResponse($this->response);
+        return $this->response;
     }
 
     private function checkUser()

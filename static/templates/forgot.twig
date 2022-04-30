@@ -1,5 +1,5 @@
 {%
-    include 'includes/header.twig' with
+    include 'inc/header.twig' with
     {
         'title': page_title,
         'user': logged_user,
@@ -15,12 +15,12 @@
                 <h1 class="mb3">{{ page_title }}</h1>
                 <br>
             </div>
-            <div class="col-8 m-auto">
+            <div class="col-lg-5 col-12 m-auto">
                 <form @submit.prevent="doReset" class="form">
-                    <p class="help text-danger" v-if="errors['noUserExists']==true">No user found with current email</p>
-                    <p class="help text-danger" v-if="errors['wrongEmail']==true">Email is not correct</p>
-                    <p class="help text-danger" v-if="errors['notSent']==true">Sorry, e-mail not sent :(</p>
-                    <p class="help text-success" v-if="errors['success']==true">Please, check your email</p>
+                    <p class="help text-danger" v-if="errors['noUserExists']==true">[[ errors.errorsMessage ]]</p>
+                    <p class="help text-danger" v-if="errors['wrongEmail']==true">[[ errors.errorsMessage ]]</p>
+                    <p class="help text-danger" v-if="errors['notSent']==true">[[ errors.errorsMessage ]]</p>
+                    <p class="help text-success" v-if="errors['success']==true">[[ errors.errorsMessage ]]</p>
                     <p class="input-group">
                         <input type="text" class="form-control" placeholder="E-mail" v-model="email">
                     </p>
@@ -28,7 +28,7 @@
                         <button class="btn btn-success" type="submit">Send</button>
                     </p>
 
-                    <span class="help text-danger" v-if="errors.smthWentWrong == true">Something went wrong</span>
+                    <span class="help text-danger" v-if="errors.smthWentWrong == true">[[ errors.errorsMessage ]]</span>
                 </form>
             </div>
         </div>
@@ -36,7 +36,7 @@
 </main>
 
 {%
-    include 'includes/footer.twig' with
+    include 'inc/footer.twig' with
     {
         'root': root
     }

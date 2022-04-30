@@ -17,7 +17,7 @@ use \Psr\Http\Message\UriInterface;
  * @author Roman S. <roman.semenikhin99@gmail.com>
  * @package Model
  */
-class Model extends Dbh implements ServerRequestInterface
+abstract class Model extends Dbh implements ServerRequestInterface
 {
     /**
      * Stores HTTP protocol version as a string.

@@ -4,8 +4,12 @@ namespace controllers\classes;
 use models\Model;
 use models\Filter;
 
+
 class Controller extends Model
 {
+    protected $response = [];
+    protected $errorMsg = ERROR_MSG;
+
     public function __construct()
     {
         parent::__construct();

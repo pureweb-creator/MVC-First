@@ -1,6 +1,7 @@
 <?php
 
 namespace controllers\classes;
+
 use controllers\traits\CheckInfo;
 
 class SignupController extends Controller
@@ -11,20 +12,21 @@ class SignupController extends Controller
     private string $pwd;
     private string $pwdRepeat;
     private string $email;
-    private $errors = [];
 
     public function __construct($login="",$pwd="", $pwdRepeat="", $email="")
     {
-        $this->login = htmlspecialchars($login);
-        $this->pwd = htmlspecialchars($pwd);
-        $this->pwdRepeat = htmlspecialchars($pwdRepeat);
-        $this->email = htmlspecialchars($email);
+        $this->login = htmlspecialchars(trim($login));
+        $this->pwd = htmlspecialchars(trim($pwd));
+        $this->pwdRepeat = htmlspecialchars(trim($pwdRepeat));
+        $this->email = htmlspecialchars(trim($email));
+
 
         parent::__construct();
     }
 
     public function signup()
     {
+
         if (!$this->checkUser()){
             $hash = md5($this->login.time());
 
@@ -32,8 +34,9 @@ class SignupController extends Controller
             $values = [$this->login,$this->email,$this->pwd,$hash,0];
 
             if (!$this->create('user', 'login, email, password, hash, email_confirmed', $values)){
-               $this->errors['smthWentWrong'] = true;
-               echo $this->makeResponse($this->errors);
+               $this->response['smthWentWrong'] = true;
+               $this->response['errorsMessage'] = $this->errorMsg["serverError"];
+               echo $this->makeResponse($this->response);
                die();
             }
 
@@ -43,23 +46,24 @@ class SignupController extends Controller
             $message = "<a href='".SITEPATH."/confirm?hash=".$hash."'>Follow this link to confirm your account</a>";
 
             if (!@mail($to, $subject, $message, $additional_headers))
-                $this->errors['emailNotSent'] = true;
+                $this->response['emailNotSent'] = true;
         }
-
-        echo $this->makeResponse($this->errors);
-        return $this->errors;
+        
+        echo $this->makeResponse($this->response);
+        return $this->response;
     }
 
     private function checkUser()
     {
-        if ($this->allowedLogin()) return true;
         if ($this->emptyData($this->login, "noLogin")) return true;
-        if ($this->emptyData($this->pwd, "noPassword")) return true;
+        if ($this->allowedLogin()) return true;
         if ($this->emptyData($this->email, "noEmail")) return true;
-        if ($this->emptyData($this->pwdRepeat, "noPasswordRepeat")) return true;
         if ($this->wrongEmail()) return true;
-        if ($this->passwordsNotEqual()) return true;
         if ($this->userExists()) return true;
+        if ($this->emptyData($this->pwd, "noPassword")) return true;
+        if ($this->wrongPassword()) return true;
+        if ($this->emptyData($this->pwdRepeat, "noPasswordRepeat")) return true;
+        if ($this->passwordsNotEqual()) return true;
     }
 
     // ???

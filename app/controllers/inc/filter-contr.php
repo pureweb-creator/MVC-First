@@ -17,4 +17,7 @@ $products = $contr->filter(
     ]
 );
 
+if (!$products)
+    $products["empty"] = ERROR_MSG["noProducts"];
+
 echo $contr->makeResponse($products);

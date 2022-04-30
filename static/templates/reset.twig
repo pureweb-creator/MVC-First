@@ -1,5 +1,5 @@
 {%
-    include 'includes/header.twig' with
+    include 'inc/header.twig' with
     {
         'title': page_title,
         'user': logged_user
@@ -14,19 +14,26 @@
                 <h1 class="mb3">{{ page_title }}</h1>
                 <br>
             </div>
-            <div class="col-8 m-auto">
+            <div class="col-lg-5 col-12 m-auto">
                 <form @submit.prevent="setNewPassword" class="form">
-                    <span class="help text-danger" v-if="errors.noPassword == true">Enter password</span>
-                    <span class="help text-danger" v-if="errors.notEqualPasswords == true">Passwords are not equal</span>
-                    <span class="help text-danger" v-if="errors.noEmail == true">No email</span>
-                    <span class="help text-danger" v-if="errors.wrongEmail == true">Wrong Email</span>
+                    <span class="help text-danger" v-if="errors.noPassword == true">[[ errors.errorsMessage ]]</span>
+                    <span class="help text-danger" v-if="errors.notEqualPasswords == true">[[ errors.errorsMessage ]]</span>
+                    <span class="help text-danger" v-if="errors.noEmail == true">[[ errors.errorsMessage ]]</span>
+                    <span class="help text-danger" v-if="errors.wrongEmail == true">[[ errors.errorsMessage ]]</span>
 
                     <input type="hidden" value="{{ user.email }}" ref="user_email">
                     <p class="input-group">
-                        <input type="password" class="form-control" placeholder="password" v-model="newPassword">
+
+                        <span class="toggle-password-visibility">
+                            <i class="fa fa-eye" @click="pwdHidden=false" v-if="pwdHidden==true"></i>
+                            <i class="fa fa-eye-slash" @click="pwdHidden=true" v-if="pwdHidden==false"></i>
+                        </span>
+
+                        <input type="password"  v-if="pwdHidden==true" class="form-control" placeholder="password" v-model="newPassword">
+                        <input type="text"  v-if="pwdHidden==false" class="form-control" placeholder="password" v-model="newPassword">
                     </p>
 
-                    <span class="help text-danger" v-if="errors.noPasswordRepeat == true">Repeat password</span>
+                    <span class="help text-danger" v-if="errors.noPasswordRepeat == true">[[ errors.errorsMessage ]]</span>
                     <p class="input-group">
                         <input type="password" class="form-control" placeholder="repeat password" v-model="newPasswordRepeat">
                     </p>
@@ -34,7 +41,7 @@
                         <button class="btn btn-success" type="submit">Send</button>
                     </p>
 
-                    <span class="help text-danger" v-if="errors.smthWentWrong == true">Something went wrong</span>
+                    <span class="help text-danger" v-if="errors.smthWentWrong == true">[[ errors.errorsMessage ]]</span>
 
                 </form>
             </div>
@@ -44,7 +51,7 @@
 
 
 {%
-    include 'includes/footer.twig' with
+    include 'inc/footer.twig' with
     {
         'root': root
     }

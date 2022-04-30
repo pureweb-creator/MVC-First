@@ -13,7 +13,7 @@
                 </div>
             {% endfor %}
         {% else %}
-            <p class="alert alert-danger">Failed to load categories. Server error occurred</p>
+            <p class="alert alert-danger">{{ errorText }}</p>
         {% endif %}
     </div>
 </div>
