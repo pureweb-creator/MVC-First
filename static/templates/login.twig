@@ -16,16 +16,16 @@
             </div>
             <div class="col-lg-5 col-12 m-auto">
                 <form @submit.prevent="doLogin" class="form">
-                    <p class="help text-danger" v-if="errors.wrongData==true">[[ errors.errorsMessage ]]</p>
+                    <p class="help text-danger" v-if="errors.wrongData">[[ errors.errorsMessage ]]</p>
                     <p class="input-group">
                         <input type="text" class="form-control" placeholder="Login" v-model="login">
                     </p>
                     <p class="input-group">
                         <span class="toggle-password-visibility">
-                            <i class="fa fa-eye" @click="pwdHidden=false" v-if="pwdHidden==true"></i>
+                            <i class="fa fa-eye" @click="pwdHidden=false" v-if="pwdHidden"></i>
                             <i class="fa fa-eye-slash" @click="pwdHidden=true" v-if="pwdHidden==false"></i>
                         </span>
-                        <input type="password" v-if="pwdHidden==true" class="form-control" placeholder="Password" v-model="password">
+                        <input type="password" v-if="pwdHidden" class="form-control" placeholder="Password" v-model="password">
                         <input type="text" ref="pwd" v-if="pwdHidden==false" class="form-control" placeholder="Password" v-model="password">
                     </p>
                     <p class="input-group">

@@ -1,6 +1,38 @@
 $(document).ready(function(){
     const SITE_URL = $('body').data('site-url');
 
+    // components
+    Vue.component('filter-options', {
+        props: {
+            name: String,
+            id: String,
+            options: Array,
+            categories: Array
+        },
+        data() {
+            return{
+                ordering: "pub_date|asc"
+            }
+        },
+        methods: {
+            doFilter: function () {
+                axios.get(SITE_URL+'/app/controllers/inc/filter-contr.php?categories=' + this.categories + "&ordering=" + this.ordering)
+                    .then(response => {
+                        this.$root.products = response.data
+                    })
+            }
+        },
+        template: `
+        <div class="row">
+            <div class="col-12 col-lg-3 col-md-3 col-sm-6 ms-auto mb-3">
+                <select @change="doFilter" class="form-select ml-auto d-block mb-3" aria-label="Default select" :name="name" :id="id" v-model="ordering" style="width: 100%">
+                    <option v-for="option in options" :value="option.name"> {{option.desc}} </option>
+                </select>
+            </div>
+        </div>
+        `
+    });
+
     Vue.component('product-card', {
         props: {
             product: Object
@@ -51,9 +83,9 @@ $(document).ready(function(){
                     <p class="text-danger" v-if="response.productAlreadyAdded == true && product.id == response.current_pid">[[ response.errorsMessage ]]</p>
                 </div>
             </li>
-        </div>
-    `
+        </div>`
     });
+
     Vue.component('cart-product-card', {
         props: {
             products: Array
@@ -110,6 +142,74 @@ $(document).ready(function(){
         `
     });
 
+    // instances
+    if ($('#account').length) {
+        var account = new Vue({
+            el: "#account",
+            delimiters: ['[[', ']]'],
+            data() {
+                return {
+                    categories: [],
+                    products: [],
+                    cartProducts: [],
+                    cartCount: 0,
+                    totals: 0,
+
+                    options: [
+                        {
+                            "name":"price|asc",
+                            "desc": "From cheap to expensive"
+                        },
+                        {
+                            "name":"price|desc",
+                            "desc": "From expensive to cheap"
+                        },
+                        {
+                            "name":"pub_date|asc",
+                            "desc": "From new to old"
+                        },
+                        {
+                            "name":"pub_date|desc",
+                            "desc": "From old to new"
+                        }
+                    ]
+                }
+            },
+            methods: {
+                getAllProducts: function () {
+                    axios.get(SITE_URL+`/app/controllers/inc/load-contr.php?table=product`)
+                        .then(response => {
+                            this.products = response.data
+                            // console.log(response.data)
+                        })
+                },
+                
+                getCart: function () {
+                    axios.get(SITE_URL+'/app/controllers/inc/load-cart-contr.php')
+                        .then(response => {
+                            this.cartProducts = response.data[0] || response.data
+                            this.cartCount = response.data[1]
+                            this.totals = response.data[2]
+
+                            // console.log(this.cartProducts)
+                        })
+                },
+
+                doFilter: function () {
+                    axios.get(SITE_URL+'/app/controllers/inc/filter-contr.php?categories=' + this.categories + "&ordering=" + this.$refs.filterOrdering.ordering)
+                        .then(response => {
+                            // console.log(response.data)
+                            this.products = response.data
+                        })
+                    },
+                },
+            created() {
+                this.getAllProducts()
+                this.getCart()
+            }
+        })
+    }
+
     if ($('#loginApp').length) {
         new Vue({
             el: '#loginApp',
@@ -144,6 +244,7 @@ $(document).ready(function(){
             }
         });
     }
+
     if ($('#signUpApp').length) {
         new Vue({
             el: '#signUpApp',
@@ -190,53 +291,6 @@ $(document).ready(function(){
         });
     }
 
-    if ($('#account').length) {
-        var account = new Vue({
-            el: "#account",
-            delimiters: ['[[', ']]'],
-            data() {
-                return {
-                    categories: [],
-                    products: [],
-                    cartProducts: [],
-                    ordering: "pub_date|asc",
-                    cartCount: 0,
-                    totals: 0
-                }
-            },
-            methods: {
-                getAllProducts: function () {
-                    axios.get(SITE_URL+`/app/controllers/inc/load-contr.php?table=product`)
-                        .then(response => {
-                            this.products = response.data
-                            console.log(response.data)
-                        })
-                },
-                doFilter: function () {
-                    axios.get(SITE_URL+'/app/controllers/inc/filter-contr.php?categories=' + this.categories + "&ordering=" + this.ordering)
-                        .then(response => {
-                            // console.log(response.data)
-                            this.products = response.data
-                        })
-                },
-                getCart: function () {
-                    axios.get(SITE_URL+'/app/controllers/inc/load-cart-contr.php')
-                        .then(response => {
-                            this.cartProducts = response.data[0] || response.data
-                            this.cartCount = response.data[1]
-                            this.totals = response.data[2]
-
-                            // console.log(this.cartProducts)
-                        })
-                }
-            },
-            created() {
-                this.getAllProducts()
-                this.getCart()
-            }
-        })
-    }
-
     if ($('#resetPassword').length) {
         new Vue({
             el: '#resetPassword',
@@ -269,6 +323,7 @@ $(document).ready(function(){
             }
         });
     }
+
     if ($('#newPassword').length) {
         new Vue({
             el: '#newPassword',

@@ -19,20 +19,20 @@
                     {{ user_registered }}
                 </p>
                 <form @submit.prevent="signUp" class="form">
-                    <span class="help text-danger" v-if="errors.noLogin == true">[[ errors.errorsMessage ]]</span>
-                    <span class="help text-danger" v-if="errors.notValidLogin == true">[[ errors.errorsMessage ]]</span>
+                    <span class="help text-danger" v-if="errors.noLogin">[[ errors.errorsMessage ]]</span>
+                    <span class="help text-danger" v-if="errors.notValidLogin">[[ errors.errorsMessage ]]</span>
                     <p class="input-group">
                         <input type="text" class="form-control" placeholder="Login" v-model="login">
                     </p>
 
-                    <span class="help text-danger" v-if="errors.noEmail == true">[[ errors.errorsMessage ]]</span>
-                    <span class="help text-danger" v-if="errors.wrongEmail == true">[[ errors.errorsMessage ]]</span>
+                    <span class="help text-danger" v-if="errors.noEmail">[[ errors.errorsMessage ]]</span>
+                    <span class="help text-danger" v-if="errors.wrongEmail">[[ errors.errorsMessage ]]</span>
                     <p class="input-group">
                         <input type="text" class="form-control" placeholder="Email" v-model="email">
                     </p>
 
-                    <span class="help text-danger" v-if="errors.noPassword == true">[[ errors.errorsMessage ]]</span>
-                    <span class="help text-danger" v-if="errors.wrongPassword == true">[[ errors.errorsMessage ]]</span>
+                    <span class="help text-danger" v-if="errors.noPassword">[[ errors.errorsMessage ]]</span>
+                    <span class="help text-danger" v-if="errors.wrongPassword">[[ errors.errorsMessage ]]</span>
                     <p class="input-group">
                         <span class="toggle-password-visibility">
                             <i class="fa fa-eye" @click="pwdHidden=false" v-if="pwdHidden==true"></i>
@@ -43,15 +43,15 @@
                         <input type="text"  v-if="pwdHidden==false" class="form-control" placeholder="Password" v-model="password">
                     </p>
 
-                    <span class="help text-danger" v-if="errors.noPasswordRepeat == true">[[ errors.errorsMessage ]]</span>
-                    <span class="help text-danger" v-if="errors.notEqualPassword == true">[[ errors.errorsMessage ]]</span>
+                    <span class="help text-danger" v-if="errors.noPasswordRepeat">[[ errors.errorsMessage ]]</span>
+                    <span class="help text-danger" v-if="errors.notEqualPassword">[[ errors.errorsMessage ]]</span>
                     <p class="input-group">
                         <input type="password" class="form-control" placeholder="Repeat password" v-model="passwordRepeat">
                     </p>
 
-                    <span class="help text-danger" v-if="errors.userExists == true">[[ errors.errorsMessage ]]</span>
-                    <span class="help text-danger" v-if="errors.smthWentWrong == true">[[ errors.errorsMessage ]]</span>
-                    <span class="help text-danger" v-if="errors.emailNotSent == true">[[ errors.errorsMessage ]]</span>
+                    <span class="help text-danger" v-if="errors.userExists">[[ errors.errorsMessage ]]</span>
+                    <span class="help text-danger" v-if="errors.smthWentWrong">[[ errors.errorsMessage ]]</span>
+                    <span class="help text-danger" v-if="errors.emailNotSent">[[ errors.errorsMessage ]]</span>
 
                     <br>
                     <p class="input-group">

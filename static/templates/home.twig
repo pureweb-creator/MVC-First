@@ -28,22 +28,20 @@
                 {% include 'inc/filter-sidebar.twig' with {'categories': categories, 'title': categories_title} %}
             </div>
             <div class="col-12 col-lg-10">
-                <div class="row">
-                    <div class="col-12 col-lg-3 col-md-3 col-sm-6 ms-auto mb-3">
-                        <select class="form-select" aria-label="Default select" name="orderBy" id="orderBy" class="ml-auto d-block mb-3" v-model="ordering" @change="doFilter" style="width: 100%">
-                            <option value="price|asc">From cheap to expensive</option>
-                            <option value="price|desc">From expensive to cheap</option>
-                            <option value="pub_date|asc">From new to old</option>
-                            <option value="pub_date|desc">From old to new</option>
-                        </select>
-                    </div>
-                </div>
+                <filter-options
+                    name="orderBy"
+                    id="orderBy"
+                    :options="options"
+                    :categories="categories"
+                    ref="filterOrdering"
+                ></filter-options>
+
                 <div class="row">
                     <p class="alert alert-danger" v-if="products.empty">[[ products.empty ]]</p>
                     <product-card
                             v-else
                             v-for="(product, index) in products"
-                            v-bind:product="product"
+                            :product="product"
                     ></product-card>
                 </div>
             </div>

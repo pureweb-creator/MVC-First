@@ -17,10 +17,10 @@
             </div>
             <div class="col-lg-5 col-12 m-auto">
                 <form @submit.prevent="doReset" class="form">
-                    <p class="help text-danger" v-if="errors['noUserExists']==true">[[ errors.errorsMessage ]]</p>
-                    <p class="help text-danger" v-if="errors['wrongEmail']==true">[[ errors.errorsMessage ]]</p>
-                    <p class="help text-danger" v-if="errors['notSent']==true">[[ errors.errorsMessage ]]</p>
-                    <p class="help text-success" v-if="errors['success']==true">[[ errors.errorsMessage ]]</p>
+                    <p class="help text-danger" v-if="errors['noUserExists']">[[ errors.errorsMessage ]]</p>
+                    <p class="help text-danger" v-if="errors['wrongEmail']">[[ errors.errorsMessage ]]</p>
+                    <p class="help text-danger" v-if="errors['notSent']">[[ errors.errorsMessage ]]</p>
+                    <p class="help text-success" v-if="errors['success']">[[ errors.errorsMessage ]]</p>
                     <p class="input-group">
                         <input type="text" class="form-control" placeholder="E-mail" v-model="email">
                     </p>
