@@ -95,6 +95,7 @@ trait CheckInfo
             $this->response['errorsMessage'] = $this->errorMsg['productAlreadyAdded'];
             $this->response['current_pid'] = $this->product_id;
         }
+        
         return $this->response;
     }
 }
