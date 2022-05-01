@@ -14,7 +14,7 @@ $args = [
     'page_subtitle'=>'We\'re really sorry, but the page you requested is missing :(',
     'app_id'=>'account',
     'logged_user'=>$user,
-    'root'=> SITEPATH
+    'root'=> $site_path
 ];
 
 $tpl = new View(false, true);

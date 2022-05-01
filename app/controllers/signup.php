@@ -10,7 +10,7 @@ if (!isset($user['is_logged_out']))
 $args = [
     'page_title' => 'Sign Up',
     'logged_user' => $user,
-    'root'=>SITEPATH,
+    'root'=>$site_path,
     'user_registered'=>"Please, check your email"
 ];
 
