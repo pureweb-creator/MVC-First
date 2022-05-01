@@ -1,7 +1,7 @@
 <?php
 require_once "autoload.php";
 
-$site_path = "http://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
+$site_path = "http://".$_SERVER['HTTP_HOST']."/phptutor/mvcproj";
 
 const ERROR_MSG = [
 	"wrongData"=> "There's no user with this login or password.",
