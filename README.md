@@ -38,7 +38,7 @@ If you want to run this application in your server, change your database connect
 <pre>const DB_CONNECT_INFO = [
   "host"=>"localhost",
   "db_name"=>"db_name",
-  "charset"=>"utf8", // not required, utf8 by default
+  "charset"=>"utf8",
   "db_username"=>"root",
   "db_user_password"=>""
 ];</pre>

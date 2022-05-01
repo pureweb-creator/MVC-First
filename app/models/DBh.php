@@ -69,7 +69,7 @@ abstract class Dbh
 		$this->pass = DB_CONNECT_INFO["db_user_password"];
 		$this->user = DB_CONNECT_INFO["db_username"];
 		$this->charset = DB_CONNECT_INFO["charset"];
-        $this->db = DB_CONNECT_INFO["db_name"] || "utf8";
+        $this->db = DB_CONNECT_INFO["db_name"];
 		$this->opt = [
             \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
             \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
