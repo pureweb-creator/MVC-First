@@ -1,39 +1,57 @@
-# Implementing MVC Model.
+# Apply the MVC model using OOP PHP
 
-## No frameworks used. Just PHP.
-
-![](https://i.ibb.co/R7R1Mqt/localhost-phptutor-mvcproj.png)
+![](https://i.ibb.co/0ZDp5Lr/Screenshot-46.png)
 
 <hr>
 
-In this project except MVC model realized:
-- login/signup/recovery password system with email verification
-- filtration products by categories and ordering like in stores.
+This mini app has
+- signup system with email verification (signup,login,recovery)
+- filtering goods like in stores.
+- basket system
 
 Project uses:
 - PHP
-- PDO
-- Composer
-- PSR-7 
 - Twig (template engine)
-- PHP Documentor
 - Phinx (db migrations)
-- Bootstrap
-- Vue.js
-- Axios
-- HTML & CSS
+- MVC,OOP,PDO
+- JS, Vue.js, Axios.js, jQuery
+- Bootstrap, HTML, SCSS, Gulp
 
 Shortly about filesystem.
 - **App/** it's a main folder. Contains basic application files.
-  - **App/controllers/** - contains controller files.<br>Files with *-Handle-* suffix means that **frontend** sends request to this file and in this file executes logic.<br>Controllers without *-Handle-* suffix just loads desired template and other logic. 
-  - **App/kernel/** - contains only one autoload file. 
-  - **App/models/** - contains models classes. One class one model.<br> 
+  - **App/controllers/** - contains controllers.
+  <br>Files in the root are including in index.php, useful for routing, and renders templates.
+  - **App/controllers/classes/** - basic classes that contains all logic in their methods.
+  - **App/controllers/inc/** - Files in this folder handles requests from Frontend.
+  - **App/controllers/traits/** - Traits.
+  - **App/kernel/** - contains autoload and config files.
+  - **App/models/** - contains models classes. One class is one model. 
   - **App/views/** - contains view class. Loads twig engine
 - **db/** folder contains phinx migration and seeding files.
 - **docs/api/** folder contains documentation.
-- **static/** folder contains front-end files. CSS, JS, Twig templates also.
-- **Index.php** - This is the entry point to the app. Loads required files, and routes.7<br>
+- **static/** folder contains front-end static files. SCSS, CSS, JS, Twig templates also.
+- **Index.php** - This is the entry point to the app. Loads required files, and routes.
 
-If you want to run this application in your PC, change your database connection info in **Dbh.php** constructor.
+If you want to run this application in your server, change your database connection info in 
+<br>*app/kernel/config.php* line 22
+<br>Example:
+<pre>const DB_CONNECT_INFO = [
+  "host"=>"localhost",
+  "db_name"=>"db_name",
+  "charset"=>"utf8", // not required, utf8 by default
+  "db_username"=>"root",
+  "db_user_password"=>""
+];</pre>
 
->*This code does not pretend to be the best. And has a lot of places to improve.*
+Specific PDO options could be changed directly in **DBh** class constructor locates in 
+<br>*app/models/Dbh.php* line 73
+<br>Example: 
+<pre>
+$this->opt = [
+    \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+    \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
+    \PDO::ATTR_EMULATE_PREPARES => false
+];
+</pre>
+
+>*This code does not pretend to be the best. And has a lot of places to improve. This implementation of MVC model just my point of view*
