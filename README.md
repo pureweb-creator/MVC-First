@@ -20,7 +20,7 @@ Project uses:
 Shortly about filesystem.
 - **App/** it's a main folder. Contains basic application files.
   - **App/controllers/** - contains controllers.
-  <br>Files in the root are including in index.php, useful for routing, and renders templates.
+  <br>Files in the root includes in index.php, useful for routing, and renders templates.
   - **App/controllers/classes/** - basic classes that contains all logic in their methods.
   - **App/controllers/inc/** - Files in this folder handles requests from Frontend.
   - **App/controllers/traits/** - Traits.
