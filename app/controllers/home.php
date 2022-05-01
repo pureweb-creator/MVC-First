@@ -21,7 +21,7 @@ $args = [
     "logged_user"=>$user,
     "categories"=>$categories,
     "errorText"=>$errorText,
-    "root"=>SITEPATH
+    "root"=>$site_path
 ];
 
 $tpl = new View(false,true);

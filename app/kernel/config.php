@@ -1,7 +1,7 @@
 <?php
 require_once "autoload.php";
 
-const SITEPATH = "http://localhost/phptutor/mvcproj";
+$site_path = "http://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
 
 const ERROR_MSG = [
 	"wrongData"=> "There's no user with this login or password.",
@@ -17,4 +17,12 @@ const ERROR_MSG = [
 	"productAlreadyAdded"=> "This product already in cart",
 	"serverError"=>"Sorry, something went wrong. Try again later",
 	"noProducts"=>"No products or failed to load"
+];
+
+const DB_CONNECT_INFO = [
+	"host"=>"localhost",
+	"db_name"=>"mvcproj_development",
+	"charset"=>"utf8",
+	"db_username"=>"root",
+	"db_user_password"=>""
 ];

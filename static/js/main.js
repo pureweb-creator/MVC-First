@@ -35,7 +35,7 @@ $(document).ready(function(){
 
     Vue.component('product-card', {
         props: {
-            product: Object
+            product: {required: false}
         },
         delimiters: ['[[', ']]'],
         data() {
@@ -88,7 +88,7 @@ $(document).ready(function(){
 
     Vue.component('cart-product-card', {
         props: {
-            products: Array
+            products: {required: false}
         },
         delimiters: ['[[', ']]'],
         methods: {
@@ -144,7 +144,7 @@ $(document).ready(function(){
 
     // instances
     if ($('#account').length) {
-        var account = new Vue({
+        let account = new Vue({
             el: "#account",
             delimiters: ['[[', ']]'],
             data() {
