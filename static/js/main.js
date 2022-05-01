@@ -144,7 +144,7 @@ $(document).ready(function(){
 
     // instances
     if ($('#account').length) {
-        let account = new Vue({
+        var account = new Vue({
             el: "#account",
             delimiters: ['[[', ']]'],
             data() {
