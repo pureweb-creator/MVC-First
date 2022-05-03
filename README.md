@@ -1,15 +1,13 @@
-# Apply the MVC model using OOP PHP
+# Applying the MVC model using OOP PHP
 
 ![](https://i.ibb.co/0ZDp5Lr/Screenshot-46.png)
 
-<hr>
-
-This mini app has
+###This mini app contains:
 - signup system with email verification (signup,login,recovery)
 - filtering goods like in stores.
 - basket system
 
-Project uses:
+###Project uses:
 - PHP
 - Twig (template engine)
 - Phinx (db migrations)
@@ -17,7 +15,7 @@ Project uses:
 - JS, Vue.js, Axios.js, jQuery
 - Bootstrap, HTML, SCSS, Gulp
 
-Shortly about filesystem.
+##Shortly about directory structure
 - **App/** it's a main folder. Contains basic application files.
   - **App/controllers/** - contains controllers.
   <br>Files in the root includes in index.php, useful for routing, and renders templates.
@@ -35,23 +33,29 @@ Shortly about filesystem.
 If you want to run this application in your server, change your database connection info in 
 <br>*app/kernel/config.php* line 22
 <br>Example:
-<pre>const DB_CONNECT_INFO = [
+
+```php
+<?php
+  const DB_CONNECT_INFO = [
   "host"=>"localhost",
   "db_name"=>"db_name",
   "charset"=>"utf8",
   "db_username"=>"root",
   "db_user_password"=>""
-];</pre>
+];
+```
 
-Specific PDO options could be changed directly in **DBh** class constructor locates in 
-<br>*app/models/Dbh.php* line 73
-<br>Example: 
-<pre>
+Specific PDO options could be changed directly in **DBh** class constructor which locates in 
+<br>
+```app/models/Dbh.php```, line 73
+<br><br>**Example**: 
+```php
+<?php
 $this->opt = [
     \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
     \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
     \PDO::ATTR_EMULATE_PREPARES => false
 ];
-</pre>
+```
 
 >*This code does not pretend to be the best. And has a lot of places to improve. This implementation of MVC model just my point of view*
