@@ -31,8 +31,8 @@
 - **Index.php** - This is the entry point to the app. Loads required files, and routes.
 
 If you want to run this application in your server, change your database connection info in 
-<br>*app/kernel/config.php* line 22
-<br>Example:
+```app/kernel/config.php```, line 22
+<br><br>**Example**:
 
 ```php
 <?php
