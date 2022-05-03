@@ -2,12 +2,12 @@
 
 ![](https://i.ibb.co/0ZDp5Lr/Screenshot-46.png)
 
-###This mini app contains:
+### This mini app contains:
 - signup system with email verification (signup,login,recovery)
 - filtering goods like in stores.
 - basket system
 
-###Project uses:
+### Project uses:
 - PHP
 - Twig (template engine)
 - Phinx (db migrations)
@@ -15,7 +15,7 @@
 - JS, Vue.js, Axios.js, jQuery
 - Bootstrap, HTML, SCSS, Gulp
 
-##Shortly about directory structure
+## Shortly about directory structure
 - **App/** it's a main folder. Contains basic application files.
   - **App/controllers/** - contains controllers.
   <br>Files in the root includes in index.php, useful for routing, and renders templates.
