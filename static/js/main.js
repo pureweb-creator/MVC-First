@@ -35,7 +35,7 @@ $(document).ready(function(){
 
     Vue.component('product-card', {
         props: {
-            product: {required: false}
+            product: {required: true}
         },
         delimiters: ['[[', ']]'],
         data() {
@@ -88,7 +88,12 @@ $(document).ready(function(){
 
     Vue.component('cart-product-card', {
         props: {
-            products: {required: false}
+            products: {required: true}
+        },
+        data() {
+            return {
+                quantity: 1
+            }
         },
         delimiters: ['[[', ']]'],
         methods: {
@@ -100,12 +105,46 @@ $(document).ready(function(){
                     })
             },
             clearCart: function (){
-                axios.get(SITE_URL+"/app/controllers/inc/cart-clear-contr")
+                axios.get(SITE_URL+"/app/controllers/inc/cart-clear-contr.php")
                     .then(response => {
                         this.errors= response.data
                         // console.log(response.data)
                         account.getCart()
                     })
+            },
+            changeQuantity: function(event,pid){
+                if (event.target.value>1){
+                    axios.get(SITE_URL+`/app/controllers/inc/cart-quantity-contr.php?count=${event.target.value}&pid=${pid}`)
+                        .then(response => {
+                            this.errors= response.data
+                            account.getCart()
+                        })
+
+                    return;
+                }
+
+                // else
+                event.target.value = 1
+            },
+            add: function(index,pid){
+                this.quantity = $('#product_quantity_'+index)[0].value++
+
+                axios.get(SITE_URL+`/app/controllers/inc/cart-quantity-contr.php?count=${this.quantity+1}&pid=${pid}`)
+                    .then(response => {
+                        this.errors= response.data
+                        account.getCart()
+                    })  
+            },
+            remove: function(index,pid){
+                if ($('#product_quantity_'+index)[0].value > 1){
+                    this.quantity = $('#product_quantity_'+index)[0].value--
+
+                    axios.get(SITE_URL+`/app/controllers/inc/cart-quantity-contr.php?count=${this.quantity-1}&pid=${pid}`)
+                        .then(response => {
+                            this.errors= response.data
+                            account.getCart()
+                        })
+                }
             }
 
         },
@@ -114,6 +153,7 @@ $(document).ready(function(){
                 <thead>
                     <tr>
                         <th>Product Name</th>
+                        <th>Quantity</th>
                         <th class="text-center">Subtotal</th>
                         <th class="text-center"><a @click="clearCart" class="btn btn-sm btn-outline-danger" href="#">Clear Cart</a></th>
                     </tr>
@@ -126,6 +166,13 @@ $(document).ready(function(){
                                 <div class="product-info">
                                     <h4 class="product-title">[[ product.name ]]</h4>
                                 </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex">
+                                <button @click="remove(index,product.id)">-</button>
+                                <input type="number" min="1" v-bind:id="'product_quantity_'+index" :value="product.quantity" @change="changeQuantity($event, product.id)">
+                                <button @click="add(index,product.id)">+</button>
                             </div>
                         </td>
                         <td class="text-center text-lg text-medium">$[[ product.price ]]</td>
@@ -191,7 +238,8 @@ $(document).ready(function(){
                             this.cartCount = response.data[1]
                             this.totals = response.data[2]
 
-                            // console.log(this.cartProducts)
+                            console.log(response.data[3])
+                            console.log(response.data[0])
                         })
                 },
 

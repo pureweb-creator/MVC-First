@@ -123,7 +123,7 @@ abstract class Model extends Dbh implements ServerRequestInterface
      * @param $array
      * @return array
      */
-    public function loadProducts($array): array
+    public function loadProducts($array)
     {
         $product_ids = "";
         foreach ($array['product_id'] as $item)
@@ -217,7 +217,6 @@ abstract class Model extends Dbh implements ServerRequestInterface
            $query = "UPDATE $table SET $fields WHERE $where";
            $statement = $this->connect()->prepare($query);
            $statement->execute($values);
-
            return $query;
        } catch (\PDOException $e){
            return false;
