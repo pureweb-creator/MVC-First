@@ -361,7 +361,7 @@ $(document).ready(function(){
                     })
                         .then(response => {
                             this.errors = response.data
-                            // console.log(response.data)
+                            console.log(response.data)
                         })
                         .catch(response => {
                             console.log(response.data)

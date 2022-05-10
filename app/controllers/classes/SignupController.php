@@ -20,13 +20,11 @@ class SignupController extends Controller
         $this->pwdRepeat = htmlspecialchars(trim($pwdRepeat));
         $this->email = htmlspecialchars(trim($email));
 
-
         parent::__construct();
     }
 
     public function signup()
     {
-
         if (!$this->checkUser()){
             $hash = md5($this->login.time());
 
@@ -43,7 +41,7 @@ class SignupController extends Controller
             $to = $this->email;
             $subject = "=?UTF-8?B?".base64_encode("Confirm e-mail")."?=";
             $additional_headers = "Content-type: text/html\nReply-to: testing@gmail.com\nFrom: testing@gmail.com";
-            $message = "<a href='".$site_path."/confirm?hash=".$hash."'>Follow this link to confirm your account</a>";
+            $message = "<a href='".$this->site_path."/confirm?hash=".$hash."'>Follow this link to confirm your account</a>";
 
             if (!@mail($to, $subject, $message, $additional_headers))
                 $this->response['emailNotSent'] = true;

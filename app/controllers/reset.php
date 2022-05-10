@@ -20,7 +20,7 @@ if ($user) {
         'page_title' => 'Enter new password',
         'logged_user' => $is_logged,
         'user' => $user,
-        'root'=> $site_path
+        'root'=> SITE_PATH
     ];
 
     $tpl = new View(false, true);

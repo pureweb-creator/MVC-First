@@ -10,7 +10,7 @@ if (!isset($user['is_logged_out']))
 $args = [
     'page_title' => 'Type your e-mail to reset password',
     'logged_user' => $user,
-    'root'=>$site_path
+    'root'=>SITE_PATH
 ];
 
 $tpl = new View(false, true);

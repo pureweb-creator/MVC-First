@@ -35,11 +35,13 @@ class RestorepwdController extends Controller
             $to = $this->email;
             $subject = '=?UTF-8?B?' . base64_encode('Reset password') . '?=';
             $additional_headers = "Content-type: text/html\nReply-to: testing@gmail.com\nFrom: testing@gmail.com";
-            $message = "<a href='" . $site_path . '/reset?hash=' . $hash . "'>Follow this link to confirm your account</a>";
+            $message = "<a href='" . $this->site_path . '/reset?hash=' . $hash . "'>Follow this link to confirm your account</a>";
 
             if (!@mail($to, $subject, $message, $additional_headers))
                 $this->response['notSent'] = true;
+
             $this->response['success'] = true;
+            $this->response['errorsMessage'] = $this->errorMsg['success'];
         }
 
         echo $this->makeResponse($this->response);

@@ -1,13 +1,14 @@
 <?php
 require_once "autoload.php";
 
-$site_path = "http://".$_SERVER['HTTP_HOST']."/phptutor/mvcproj";
+const SITE_PATH = "http://localhost/phptutor/mvcproj";
 
 const ERROR_MSG = [
 	"wrongData"=> "There's no user with this login or password.",
 	"notValidLogin"=> "You can use a-z, A-Z, 0-9, underscores and dots. Minimum length is 5 and maximum is 20 characters accordingly.",
 	"noLogin"=> "Please, type login.",
 	"noEmail"=> "Please, type email.",
+    "success"=> "Success!",
 	"noPassword"=> "Please, type your password.",
 	"noPasswordRepeat"=> "Please, repeat your password.",
 	"wrongEmail"=> "Wrong email.",

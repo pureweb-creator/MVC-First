@@ -4,11 +4,11 @@ namespace controllers\classes;
 use models\Model;
 use models\Filter;
 
-
 class Controller extends Model
 {
     protected $response = [];
     protected $errorMsg = ERROR_MSG;
+    protected $site_path = SITE_PATH;
 
     public function __construct()
     {
